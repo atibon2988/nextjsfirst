@@ -44,6 +44,7 @@ export default function Home() {
           <nav className="space-x-4 text-sm font-medium text-gray-600">
             <Link href="/" className="hover:text-blue-600">Trang chủ</Link>
             <Link href="/about" className="hover:text-blue-600">Giới thiệu</Link>
+            <Link href="/menu" className="hover:text-blue-600">Danh mục</Link>
           </nav>
         </div>
       </header>
