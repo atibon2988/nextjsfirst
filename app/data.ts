@@ -7,36 +7,22 @@ export const allItems = [
   {
     id: 101,
     title: "Ra mắt Galaxy S25 Ultra: AI đỉnh cao",
-    imageUrl: "https://images.unsplash.com/photo-1610945490264-1b580b201f03?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1610945265078-38584e12e4c6?q=80&w=800&auto=format&fit=crop",
     description: "Samsung chính thức công bố siêu phẩm mới với chip Snapdragon 8 Gen 5.",
     category: "Tin tức",
     date: "2024-01-26",
     downloadUrl: "#",
-    detailContent: `
-      Samsung vừa chính thức ra mắt Galaxy S25 Ultra tại sự kiện Unpacked 2026.
-      
-      **Điểm nổi bật:**
-      - Khung viền Titan thế hệ mới, bền hơn và nhẹ hơn.
-      - Chip Snapdragon 8 Gen 5 for Galaxy, tối ưu hóa riêng cho các tác vụ AI.
-      - Camera 300MP với khả năng zoom quang học 10x cực nét.
-      - Pin 5500mAh, sạc nhanh 65W.
-
-      Sản phẩm dự kiến sẽ lên kệ vào đầu tháng 2 với mức giá khởi điểm từ 1299$.
-    `
+    detailContent: "Samsung vừa chính thức ra mắt Galaxy S25 Ultra..."
   },
   {
     id: 102,
     title: "Windows 12 lộ diện giao diện mới",
-    imageUrl: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop",
     description: "Microsoft thay đổi hoàn toàn thanh Taskbar, tích hợp sâu Copilot.",
     category: "Tin tức",
     date: "2024-01-25",
     downloadUrl: "#",
-    detailContent: `
-      Các hình ảnh rò rỉ mới nhất cho thấy Windows 12 sẽ có giao diện nổi (Floating Taskbar) tương tự macOS.
-      
-      AI Copilot sẽ không chỉ là một thanh bên mà được tích hợp sâu vào từng thao tác của người dùng, từ việc soạn thảo văn bản đến chỉnh sửa ảnh tự động.
-    `
+    detailContent: "Giao diện Windows 12 sẽ có thiết kế nổi..."
   },
   {
     id: 103,
