@@ -17,12 +17,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi">
-      <body className={inter.className}>
-        {/* Đặt Header ở đây -> Mọi trang đều sẽ thấy nó */}
+      {/* THAY ĐỔI Ở ĐÂY: Thêm class bg-slate-100 vào body */}
+      <body className={`${inter.className} bg-slate-100 text-slate-900`}>
+        
         <Header />
         
-        {/* children chính là nội dung thay đổi của từng trang (Trang chủ, Chi tiết...) */}
         {children}
+        
       </body>
     </html>
   );
