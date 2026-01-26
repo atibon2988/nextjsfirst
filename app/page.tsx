@@ -22,23 +22,26 @@ function ItemCard({ item }: { item: any }) {
 
     return (
         <Link href={`/software/${item.id}`} className="block h-full">
+            {/* THÊM CLASS DARK Ở DÒNG DƯỚI */}
             <div className="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col group h-full overflow-hidden cursor-pointer">
+                
+                {/* Phần ảnh giữ nguyên */}
                 <div className="h-48 w-full overflow-hidden relative">
-                    {item.imageUrl ? (
-                        <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"/>
-                    ) : (
-                        <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
-                    )}
-                    <div className="absolute top-0 left-0 w-full p-3 bg-gradient-to-b from-black/50 to-transparent">
-                        <span className={`text-xs font-bold px-2 py-1 rounded shadow-sm ${getBadgeColor(item.category)}`}>
-                            {item.category}
-                        </span>
-                    </div>
+                   {/* ... */}
                 </div>
+
                 <div className="p-5 flex-1 flex flex-col">
                     <div className="text-gray-400 text-xs mb-2 flex items-center gap-1">📅 {item.date}</div>
+                    
+                    {/* THÊM DARK:TEXT-WHITE */}
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                        {item.title}
+                    </h3>
+                    
+                    {/* THÊM DARK:TEXT-GRAY-400 */}
                     <p className="text-gray-500 dark:text-gray-400 text-sm line-clamp-2 leading-relaxed">
+                        {item.description}
+                    </p>
                 </div>
             </div>
         </Link>
