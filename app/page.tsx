@@ -2,167 +2,212 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { allItems } from './data'; // Import dữ liệu từ file riêng
 
-// Dữ liệu giả lập (Giữ nguyên như cũ)
-const allItems = [
-  { id: 1, title: "VS Code for Android", description: "Trình soạn thảo code, bản chạy trên trình duyệt.", version: "v4.9.0", date: "2024-01-20", category: "Phần mềm", downloadUrl: "#" },
-  { id: 2, title: "Genshin Impact (Lite)", description: "Phiên bản giảm dung lượng cho máy cấu hình yếu.", version: "v4.0", date: "2024-01-22", category: "Game", downloadUrl: "#" },
-  { id: 3, title: "Tuyển tập Nhạc Lo-fi", description: "100 bài nhạc không lời giúp tập trung code cực chill.", version: "Album 1", date: "2024-01-15", category: "Nhạc", downloadUrl: "#" },
-  { id: 4, title: "Bộ Ảnh 4K Cyberpunk", description: "Hình nền chất lượng cao chủ đề tương lai.", version: "Pack 1", date: "2024-01-10", category: "Ảnh", downloadUrl: "#" },
-  { id: 5, title: "Termux Premium", description: "Giả lập Terminal mạnh mẽ trên Android.", version: "v0.118", date: "2024-01-18", category: "Phần mềm", downloadUrl: "#" },
-  { id: 6, title: "Hướng dẫn React (Video)", description: "Series video dạy lập trình React từ cơ bản đến nâng cao.", version: "Full HD", date: "2024-01-05", category: "Video", downloadUrl: "#" },
-];
-
-const categories = ["Tất cả", "Phần mềm", "Ảnh", "Nhạc", "Video", "Game"];
+const categories = ["Tin tức", "Game", "Video", "Ảnh", "Phần mềm", "Nhạc"];
 
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Tất cả");
+  const [filterCategory, setFilterCategory] = useState("Trang chủ");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const filteredItems = allItems.filter((item) => {
-    const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          item.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "Tất cả" ? true : item.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
-
   return (
-    // --- THAY ĐỔI LỚN Ở ĐÂY: Thêm ảnh nền vào thẻ main ---
-    <main 
-      className="min-h-screen bg-cover bg-center bg-fixed relative"
-      style={{
-        // Link ảnh mẫu chất lượng cao (Bạn có thể thay link khác vào đây)
-        backgroundImage: "url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop')"
-      }}
-    >
-      {/* LỚP PHỦ MÀU ĐEN MỜ: Giúp chữ dễ đọc hơn trên nền ảnh */}
-      <div className="absolute inset-0 bg-black/60 z-0"></div>
+    <main className="min-h-screen bg-slate-50 font-sans">
+      
+      {/* --- HEADER --- */}
+      <header className="bg-white shadow-md sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
+          
+          {/* Logo */}
+          <div 
+            className="text-2xl font-bold text-blue-600 cursor-pointer" 
+            onClick={() => setFilterCategory("Trang chủ")}
+          >
+            KhoTaiNguyen
+          </div>
 
-      {/* NỘI DUNG CHÍNH: Phải đặt trong một thẻ div có z-index cao hơn lớp phủ */}
-      <div className="relative z-10">
+          {/* Navigation */}
+          <nav className="flex items-center gap-6">
+            <button 
+                onClick={() => setFilterCategory("Trang chủ")}
+                className={`text-sm font-medium hover:text-blue-600 ${filterCategory === 'Trang chủ' ? 'text-blue-600' : 'text-gray-600'}`}
+            >
+                Trang chủ
+            </button>
 
-        {/* Header: Làm bán trong suốt (backdrop-blur) cho đẹp */}
-        <header className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-20 border-b border-white/20">
-          <div className="max-w-5xl mx-auto px-4 py-4">
-            <div className="flex justify-between items-center mb-4">
-              <h1 className="text-xl font-bold text-blue-700">Kho Tài Nguyên</h1>
-              <nav className="text-sm font-medium text-gray-700">
-                <Link href="/about" className="hover:text-blue-600 transition">Giới thiệu</Link>
-              </nav>
-            </div>
-
-            <div className="flex gap-2 relative">
-              <div className="flex-1 relative">
-                  <input 
-                    type="text" 
-                    placeholder="Tìm phần mềm, game, nhạc..." 
-                    className="w-full pl-10 pr-4 py-2 bg-white/90 border border-gray-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 rounded-lg transition-all shadow-sm"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <svg className="w-5 h-5 text-gray-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-              </div>
-
-              <div className="relative">
+            {/* Dropdown Danh Mục */}
+            <div className="relative">
                 <button 
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center gap-1 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition shadow-sm"
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none"
                 >
-                  <span>{selectedCategory}</span>
-                  <svg className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                    Danh mục
+                    <svg className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
 
+                {/* Menu sổ xuống */}
                 {isDropdownOpen && (
-                  <>
-                    <div className="fixed inset-0 z-10" onClick={() => setIsDropdownOpen(false)}></div>
-                    <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-20 overflow-hidden">
-                      {categories.map((cat) => (
-                        <button
-                          key={cat}
-                          onClick={() => {
-                            setSelectedCategory(cat);
-                            setIsDropdownOpen(false);
-                          }}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-blue-50 transition ${selectedCategory === cat ? 'text-blue-600 font-bold bg-blue-50' : 'text-gray-700'}`}
-                        >
-                          {cat}
-                        </button>
-                      ))}
-                    </div>
-                  </>
+                    <>
+                        <div className="fixed inset-0 z-10 cursor-default" onClick={() => setIsDropdownOpen(false)}></div>
+                        <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                            {categories.map((cat) => (
+                                <button
+                                    key={cat}
+                                    onClick={() => {
+                                        setFilterCategory(cat);
+                                        setIsDropdownOpen(false);
+                                    }}
+                                    className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                                >
+                                    {cat}
+                                </button>
+                            ))}
+                        </div>
+                    </>
                 )}
-              </div>
-
             </div>
-          </div>
-        </header>
 
-        {/* Danh sách kết quả */}
-        <div className="max-w-5xl mx-auto px-4 py-8">
-          
-          <div className="flex justify-between items-center mb-6">
-              {/* Đổi màu chữ tiêu đề thành trắng để nổi trên nền tối */}
-              <h2 className="text-xl font-bold text-white/90">
-                {selectedCategory === "Tất cả" ? "Mới cập nhật" : `Danh mục: ${selectedCategory}`}
-              </h2>
-              <span className="text-sm text-gray-300">Tìm thấy {filteredItems.length} kết quả</span>
-          </div>
-          
-          {filteredItems.length > 0 ? (
-            // Thêm backdrop-blur nhẹ cho các thẻ bài viết để tạo chiều sâu
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredItems.map((item) => (
-                <div key={item.id} className="bg-white/95 backdrop-blur-sm rounded-xl border border-white/20 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col overflow-hidden group">
-                  
-                  <div className="p-5 flex-1">
-                    <div className="flex justify-between items-start mb-2">
-                      <span className={`text-xs font-bold px-2.5 py-0.5 rounded 
-                        ${item.category === 'Game' ? 'bg-purple-100 text-purple-800' : 
-                          item.category === 'Video' ? 'bg-red-100 text-red-800' : 
-                          'bg-blue-100 text-blue-800'}`}>
-                        {item.category}
-                      </span>
-                      <span className="text-gray-500 text-xs">{item.date}</span>
-                    </div>
-                    
-                    <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                      {item.title}
-                    </h3>
-                    
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                      {item.description}
-                    </p>
-                  </div>
-
-                  <div className="bg-gray-50/50 px-5 py-3 border-t border-gray-100 flex gap-2">
-                    <Link href={`/software/${item.id}`} className="flex-1 text-center bg-white border border-gray-300 text-gray-700 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition">
-                      Chi tiết
-                    </Link>
-                    <a href={item.downloadUrl} className="flex-1 text-center bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition shadow-sm">
-                      Tải về
-                    </a>
-                  </div>
-
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-20 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
-              <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-bold text-white">Không tìm thấy kết quả nào</h3>
-              <p className="text-gray-300">Thử tìm từ khóa khác hoặc chọn danh mục "Tất cả"</p>
-            </div>
-          )}
-
+            <Link href="/about" className="text-sm font-medium text-gray-600 hover:text-blue-600">Giới thiệu</Link>
+          </nav>
         </div>
+      </header>
 
-        {/* Footer bán trong suốt */}
-        <footer className="bg-white/80 backdrop-blur-md border-t border-white/20 mt-12 py-8 text-center text-gray-600 text-sm">
-          © 2024 Kho Tài Nguyên. Built with Next.js.
-        </footer>
+      {/* --- NỘI DUNG CHÍNH --- */}
+      <div className="max-w-6xl mx-auto px-4 py-8">
+
+        {/* TRƯỜNG HỢP 1: Ở Trang Chủ -> Hiển thị TẤT CẢ danh mục, mỗi cái 2 bài */}
+        {filterCategory === "Trang chủ" ? (
+            <div className="space-y-12">
+                {/* Banner chào mừng */}
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-lg mb-8">
+                    <h1 className="text-3xl font-bold mb-2">Chào mừng trở lại!</h1>
+                    <p className="opacity-90">Khám phá kho tàng phần mềm, game và tài liệu miễn phí.</p>
+                </div>
+
+                {categories.map((cat) => {
+                    // Lọc lấy đúng danh mục và chỉ cắt lấy 2 bài đầu tiên
+                    const items = allItems.filter(item => item.category === cat).slice(0, 2);
+                    
+                    return (
+                        <section key={cat}>
+                            <div className="flex justify-between items-center mb-4 border-l-4 border-blue-600 pl-3">
+                                <h2 className="text-2xl font-bold text-gray-800">{cat}</h2>
+                                <button 
+                                    onClick={() => setFilterCategory(cat)}
+                                    className="text-sm text-blue-600 hover:underline font-medium"
+                                >
+                                    Xem thêm &rarr;
+                                </button>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {items.map(item => (
+                                    <ItemCard key={item.id} item={item} />
+                                ))}
+                            </div>
+                        </section>
+                    )
+                })}
+            </div>
+        ) : (
+            // TRƯỜNG HỢP 2: Đang lọc theo 1 danh mục cụ thể -> Hiển thị HẾT danh mục đó
+            <div>
+                <div className="mb-6">
+                    <button onClick={() => setFilterCategory("Trang chủ")} className="text-sm text-gray-500 hover:text-blue-600 mb-2">&larr; Quay lại trang chủ</button>
+                    <h2 className="text-3xl font-bold text-gray-900">{filterCategory}</h2>
+                    <p className="text-gray-500 mt-1">Tìm thấy {allItems.filter(i => i.category === filterCategory).length} kết quả.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {allItems
+                        .filter(item => item.category === filterCategory)
+                        .map(item => (
+                            <ItemCard key={item.id} item={item} />
+                        ))
+                    }
+                </div>
+            </div>
+        )}
 
       </div>
+
+      <footer className="bg-white border-t mt-12 py-8 text-center text-gray-500 text-sm">
+        © 2026 Kho Tài Nguyên. All rights reserved.
+      </footer>
     </main>
   );
+}
+
+// --- Component Card nhỏ gọn để tái sử dụng ---
+// Trong file app/page.tsx
+
+function ItemCard({ item }: { item: any }) {
+    const getBadgeColor = (cat: string) => {
+        switch(cat) {
+            case 'Game': return 'bg-purple-100 text-purple-700';
+            case 'Tin tức': return 'bg-red-100 text-red-700';
+            case 'Video': return 'bg-pink-100 text-pink-700';
+            case 'Phần mềm': return 'bg-blue-100 text-blue-700';
+            case 'Ảnh': return 'bg-green-100 text-green-700';
+            case 'Nhạc': return 'bg-yellow-100 text-yellow-700';
+            default: return 'bg-gray-100 text-gray-700';
+        }
+    };
+
+    // Kiểm tra xem có phải tin tức không
+    const isNews = item.category === 'Tin tức';
+
+    return (
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group h-full overflow-hidden">
+            
+            <div className="h-48 w-full overflow-hidden relative">
+                {item.imageUrl ? (
+                    <img 
+                        src={item.imageUrl} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                    />
+                ) : (
+                    <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
+                )}
+                
+                <span className={`absolute top-3 left-3 text-xs font-bold px-2 py-1 rounded shadow-sm ${getBadgeColor(item.category)}`}>
+                    {item.category}
+                </span>
+            </div>
+
+            <div className="p-5 flex-1 flex flex-col">
+                <div className="text-gray-400 text-xs mb-2 flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    {item.date}
+                </div>
+                
+                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                    {item.title}
+                </h3>
+                <p className="text-gray-600 text-sm line-clamp-2 mb-4">
+                    {item.description}
+                </p>
+                
+                {/* --- SỬA ĐOẠN NÀY: Logic ẩn hiện nút --- */}
+                <div className="mt-auto pt-3 border-t border-gray-100 flex gap-2">
+                    <Link 
+                        href={`/software/${item.id}`} 
+                        className={`text-center bg-gray-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-600 hover:text-white transition-colors ${isNews ? 'w-full' : 'flex-1'}`}
+                    >
+                        {isNews ? 'Đọc tin' : 'Chi tiết'}
+                    </Link>
+
+                    {/* Chỉ hiện nút Tải về nếu KHÔNG PHẢI là Tin tức */}
+                    {!isNews && (
+                        <a 
+                            href={item.downloadUrl} 
+                            className="flex-1 text-center bg-blue-100 text-blue-700 font-semibold py-2 rounded-lg hover:bg-blue-700 hover:text-white transition-colors"
+                        >
+                            Tải về
+                        </a>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 }

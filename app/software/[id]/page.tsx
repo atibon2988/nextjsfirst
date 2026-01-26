@@ -1,128 +1,82 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { allItems } from '../../data';
 
-// 1. Dữ liệu giả (Tạm thời để ở đây, sau này thay bằng Database)
-const softwares = [
-  {
-    id: 1,
-    title: "VS Code for Android",
-    description: "Trình soạn thảo code tốt nhất, phiên bản chạy trên trình duyệt cho Android.",
-    detailContent: "Đây là nội dung chi tiết dài hơn... \n\nHướng dẫn cài đặt:\nB1. Tải về.\nB2. Cài đặt code-server...",
-    version: "v4.9.0",
-    date: "2024-01-20",
-    category: "Dev Tools",
-    downloadUrl: "#",
-    size: "85 MB"
-  },
-  {
-    id: 2,
-    title: "Termux Premium",
-    description: "Giả lập Terminal mạnh mẽ trên Android, đã cài sẵn các gói cần thiết.",
-    detailContent: "Termux là công cụ không thể thiếu. Bản này đã fix lỗi kho lưu trữ...",
-    version: "v0.118",
-    date: "2024-01-18",
-    category: "System",
-    downloadUrl: "#",
-    size: "24 MB"
-  },
-  {
-    id: 3,
-    title: "Bộ hình nền 4K",
-    description: "Tổng hợp 100+ hình nền chủ đề Cyberpunk siêu nét.",
-    detailContent: "Bộ sưu tập tuyển chọn từ các artist nổi tiếng...",
-    version: "Pack 1",
-    date: "2024-01-15",
-    category: "Media",
-    downloadUrl: "#",
-    size: "1.2 GB"
-  },
-];
-
-// 2. Định nghĩa kiểu dữ liệu cho props (Quan trọng với Next.js 16)
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-// 3. Component chính
-export default async function SoftwareDetail({ params }: Props) {
-  
-  // BẮT BUỘC: Phải dùng 'await' để lấy id ra
+export default async function DetailPage({ params }: Props) {
   const { id } = await params;
-  
-  // Chuyển id từ chuỗi sang số để tìm
-  const softwareId = parseInt(id);
+  const itemId = parseInt(id);
+  const item = allItems.find((s) => s.id === itemId);
 
-  // Tìm bài viết trong kho dữ liệu
-  const item = softwares.find((s) => s.id === softwareId);
-
-  // Nếu không thấy (ví dụ gõ link bậy bạ) -> Báo lỗi 404
   if (!item) {
     return notFound();
   }
 
-  // Giao diện hiển thị
   return (
     <main className="min-h-screen bg-slate-50 pb-20">
-      {/* Header nút quay lại */}
-      <header className="bg-white border-b py-4 px-6 mb-8 sticky top-0 z-10">
+      {/* Header Back */}
+      <header className="bg-white/90 backdrop-blur-md border-b py-4 px-6 mb-0 sticky top-0 z-20">
         <div className="max-w-4xl mx-auto flex items-center gap-2">
-            <Link href="/" className="text-gray-500 hover:text-blue-600 flex items-center text-sm font-medium">
+            <Link href="/" className="text-gray-500 hover:text-blue-600 flex items-center text-sm font-medium transition">
                 &larr; Quay lại trang chủ
             </Link>
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4">
+      {/* --- PHẦN ẢNH BÌA LỚN (BANNER) --- */}
+      <div className="w-full h-64 md:h-80 bg-gray-200 relative">
+         {item.imageUrl ? (
+             <img 
+                src={item.imageUrl} 
+                alt={item.title} 
+                className="w-full h-full object-cover"
+             />
+         ) : (
+             <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-800">No Cover Image</div>
+         )}
+         {/* Lớp phủ đen mờ để chữ dễ đọc hơn nếu muốn viết đè lên */}
+         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 -mt-20 relative z-10">
         
-        {/* Khối thông tin chính */}
-        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 mb-6 flex flex-col md:flex-row gap-6 md:gap-8 items-start">
-            {/* Ảnh đại diện giả lập */}
-            <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white text-3xl font-bold flex-shrink-0 shadow-lg shadow-blue-200">
-                {item.title.charAt(0)}
-            </div>
-
-            <div className="flex-1 w-full">
-                <div className="flex flex-wrap gap-2 mb-3">
-                    <span className="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded">
-                        {item.category}
-                    </span>
-                    <span className="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded">
-                        {item.version}
-                    </span>
-                </div>
-                
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{item.title}</h1>
-                <p className="text-gray-600 leading-relaxed">{item.description}</p>
-                
-                <div className="mt-4 flex gap-4 text-sm text-gray-400 font-mono">
-                   <span>{item.date}</span> • <span>{item.size}</span>
-                </div>
-            </div>
-        </div>
-
-        {/* Nút tải xuống (To và Rõ) */}
-        <div className="mb-8">
-            <a href={item.downloadUrl} className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg py-4 rounded-xl shadow-lg shadow-blue-200 transition active:scale-95">
-                <span>Tải Xuống Ngay</span>
-                <span className="text-blue-200 text-sm font-normal">({item.size})</span>
-            </a>
-            <p className="text-center text-xs text-gray-400 mt-2">
-                ✅ File sạch 100% • Server tốc độ cao
-            </p>
-        </div>
-
-        {/* Nội dung chi tiết */}
-        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
-            <h3 className="text-xl font-bold mb-4 text-gray-800">Thông tin chi tiết</h3>
-            <div className="prose max-w-none text-gray-700 whitespace-pre-line">
-                {item.detailContent}
+        {/* Khối Tiêu đề & Thông tin */}
+        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 mb-6">
+            <div className="flex gap-2 mb-4">
+                <span className="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                    {item.category}
+                </span>
+                <span className="text-gray-400 text-xs flex items-center">📅 {item.date}</span>
             </div>
             
-            <div className="mt-8 p-4 bg-yellow-50 rounded-lg border border-yellow-100 text-sm text-yellow-800">
-                ⚠️ <strong>Lưu ý:</strong> Nếu link tải bị lỗi, vui lòng báo cáo lại cho Admin.
-            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{item.title}</h1>
+            <p className="text-xl text-gray-500 font-light">{item.description}</p>
         </div>
 
+         {item.category !== 'Tin tức' && (
+            <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a href={item.downloadUrl} className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg py-4 rounded-xl shadow-lg shadow-blue-200 transition active:scale-95">
+                    {item.category === 'Video' ? '▶️ Xem Video' : '⬇️ Tải Xuống Ngay'}
+                </a>
+                <button className="flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-700 font-semibold text-lg py-4 rounded-xl hover:bg-gray-50 transition">
+                    ❤️ Yêu thích
+                </button>
+            </div>
+        )}
+
+        {/* --- NỘI DUNG CHI TIẾT THẬT --- */}
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+            <h3 className="text-xl font-bold mb-6 text-gray-800 border-b pb-2">Thông tin chi tiết</h3>
+            
+            {/* Class 'whitespace-pre-line' giúp hiển thị đúng các dòng xuống dòng bạn viết trong data.ts */}
+            <div className="prose max-w-none text-gray-700 leading-relaxed whitespace-pre-line text-lg">
+                {/* Nếu bài viết chưa có detailContent thì hiện dòng chữ mặc định */}
+                {item.detailContent ? item.detailContent : "Bài viết này đang được cập nhật nội dung..."}
+            </div>
+        </div>
       </div>
     </main>
   );
