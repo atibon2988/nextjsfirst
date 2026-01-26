@@ -156,7 +156,7 @@ function MainContent() {
 
 export default function Home() {
     return (
-        <main className="min-h-screen bg-slate-50">
+        <main className="min-h-screen bg-slate-100">
             <div className="max-w-6xl mx-auto px-4 py-8">
                 <Suspense fallback={<div>Đang tải...</div>}>
                     <MainContent />
