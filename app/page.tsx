@@ -153,61 +153,46 @@ function ItemCard({ item }: { item: any }) {
         }
     };
 
-    // Kiểm tra xem có phải tin tức không
-    const isNews = item.category === 'Tin tức';
-
     return (
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group h-full overflow-hidden">
-            
-            <div className="h-48 w-full overflow-hidden relative">
-                {item.imageUrl ? (
-                    <img 
-                        src={item.imageUrl} 
-                        alt={item.title} 
-                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                    />
-                ) : (
-                    <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
-                )}
+        // BỌC CẢ THẺ BẰNG LINK => Bấm đâu cũng chuyển trang
+        <Link href={`/software/${item.id}`} className="block h-full">
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col group h-full overflow-hidden cursor-pointer">
                 
-                <span className={`absolute top-3 left-3 text-xs font-bold px-2 py-1 rounded shadow-sm ${getBadgeColor(item.category)}`}>
-                    {item.category}
-                </span>
-            </div>
-
-            <div className="p-5 flex-1 flex flex-col">
-                <div className="text-gray-400 text-xs mb-2 flex items-center gap-1">
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    {item.date}
-                </div>
-                
-                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
-                    {item.title}
-                </h3>
-                <p className="text-gray-600 text-sm line-clamp-2 mb-4">
-                    {item.description}
-                </p>
-                
-                {/* --- SỬA ĐOẠN NÀY: Logic ẩn hiện nút --- */}
-                <div className="mt-auto pt-3 border-t border-gray-100 flex gap-2">
-                    <Link 
-                        href={`/software/${item.id}`} 
-                        className={`text-center bg-gray-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-600 hover:text-white transition-colors ${isNews ? 'w-full' : 'flex-1'}`}
-                    >
-                        {isNews ? 'Đọc tin' : 'Chi tiết'}
-                    </Link>
-
-                    {/* Chỉ hiện nút Tải về nếu KHÔNG PHẢI là Tin tức */}
-                    {!isNews && (
-                        <a 
-                            href={item.downloadUrl} 
-                            className="flex-1 text-center bg-blue-100 text-blue-700 font-semibold py-2 rounded-lg hover:bg-blue-700 hover:text-white transition-colors"
-                        >
-                            Tải về
-                        </a>
+                {/* Phần Ảnh */}
+                <div className="h-52 w-full overflow-hidden relative">
+                    {item.imageUrl ? (
+                        <img 
+                            src={item.imageUrl} 
+                            alt={item.title} 
+                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                        />
+                    ) : (
+                        <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
                     )}
+                    
+                    {/* Badge danh mục */}
+                    <div className="absolute top-0 left-0 w-full p-3 bg-gradient-to-b from-black/50 to-transparent">
+                        <span className={`text-xs font-bold px-2 py-1 rounded shadow-sm ${getBadgeColor(item.category)}`}>
+                            {item.category}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Phần Nội Dung (Đã bỏ hết nút bấm) */}
+                <div className="p-5 flex-1 flex flex-col">
+                    <div className="text-gray-400 text-xs mb-2 flex items-center gap-1">
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        {item.date}
+                    </div>
+                    
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                        {item.title}
+                    </h3>
+                    <p className="text-gray-500 text-sm line-clamp-3 leading-relaxed">
+                        {item.description}
+                    </p>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
