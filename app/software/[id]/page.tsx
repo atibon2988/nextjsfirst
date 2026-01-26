@@ -16,7 +16,7 @@ export default async function DetailPage({ params }: Props) {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 pb-20">
+    <main className="min-h-screen pb-20">
       
 
 
