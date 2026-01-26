@@ -8,7 +8,7 @@ export const allItems = [
     id: 101,
     title: "Ra mắt Galaxy S25 Ultra: AI đỉnh cao",
     imageUrl: "https://images.unsplash.com/photo-1610945265078-38584e12e4c6?q=80&w=800&auto=format&fit=crop",
-    description: "Samsung chính thức công bố siêu phẩm mới với chip Snapdragon 8 Gen 5.",
+    description: "Samsung chính thức công bố siêu phẩm mới với chip Snapdragon 8 Gen 5 ok.",
     category: "Tin tức",
     date: "2024-01-26",
     downloadUrl: "#",
