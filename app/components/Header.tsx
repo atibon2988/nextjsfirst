@@ -1,4 +1,3 @@
-// app/components/Header.tsx
 "use client";
 
 import Link from 'next/link';
@@ -15,19 +14,40 @@ function SearchAndMenu() {
     const [history, setHistory] = useState<string[]>([]);
     const [showHistory, setShowHistory] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    
+    // --- MỚI: State cho Dark Mode ---
+    const [isDarkMode, setIsDarkMode] = useState(false);
+    // -------------------------------
+
     const searchRef = useRef<HTMLDivElement>(null);
 
-    // --- MỚI THÊM: Lắng nghe URL để xóa trắng ô tìm kiếm ---
+    // 1. Logic Dark Mode
     useEffect(() => {
-        // Lấy từ khóa từ URL (nếu có)
+        // Kiểm tra xem máy người dùng đã lưu chế độ nào chưa
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            setIsDarkMode(true);
+        }
+    }, []);
+
+    const toggleDarkMode = () => {
+        if (isDarkMode) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            setIsDarkMode(false);
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            setIsDarkMode(true);
+        }
+    };
+
+    // 2. Logic Tìm kiếm & Lịch sử (Giữ nguyên như cũ)
+    useEffect(() => {
         const currentSearchInUrl = searchParams.get('search');
-        
-        // Nếu trên URL có từ khóa -> Điền vào ô input
-        // Nếu trên URL không có (về trang chủ) -> Xóa trắng ô input
         setSearchTerm(currentSearchInUrl || "");
-        
-    }, [searchParams]); // Chạy lại mỗi khi URL thay đổi
-    // -------------------------------------------------------
+    }, [searchParams]);
 
     useEffect(() => {
         const savedHistory = localStorage.getItem('searchHistory');
@@ -42,16 +62,12 @@ function SearchAndMenu() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const saveToHistory = (term: string) => {
-        if (!term.trim()) return;
-        const newHistory = [term, ...history.filter(h => h !== term)].slice(0, 5);
-        setHistory(newHistory);
-        localStorage.setItem('searchHistory', JSON.stringify(newHistory));
-    };
-
     const handleSearch = (term: string) => {
         if (term.trim()) {
-            saveToHistory(term);
+            const newHistory = [term, ...history.filter(h => h !== term)].slice(0, 5);
+            setHistory(newHistory);
+            localStorage.setItem('searchHistory', JSON.stringify(newHistory));
+            
             router.push(`/?search=${encodeURIComponent(term)}`);
             setShowHistory(false);
         } else {
@@ -60,9 +76,7 @@ function SearchAndMenu() {
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            handleSearch(searchTerm);
-        }
+        if (e.key === 'Enter') handleSearch(searchTerm);
     };
 
     const handleCategoryClick = (cat: string) => {
@@ -78,43 +92,52 @@ function SearchAndMenu() {
     };
 
     return (
-        <div className="flex gap-3 items-center w-full md:w-auto">
-            {/* Nút Danh Mục */}
+        <div className="flex gap-2 items-center w-full md:w-auto">
+            
+            {/* --- NÚT DARK MODE (MỚI) --- */}
+            <button 
+                onClick={toggleDarkMode}
+                className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-yellow-300 transition backdrop-blur-sm h-10 w-10 flex items-center justify-center border border-white/10"
+                title="Đổi giao diện Sáng/Tối"
+            >
+                {isDarkMode ? (
+                    // Icon Mặt trăng (Đang tối)
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                ) : (
+                    // Icon Mặt trời (Đang sáng)
+                    <svg className="w-5 h-5 text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                )}
+            </button>
+
+            {/* Nút Danh Mục (Giữ nguyên) */}
             <div className="relative">
                 <button 
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center gap-1 bg-white/10 border border-white/20 text-white px-4 py-2 rounded-lg font-medium hover:bg-white/20 transition h-10 text-sm whitespace-nowrap backdrop-blur-sm"
+                    className="flex items-center gap-1 bg-white/10 border border-white/20 text-white px-3 py-2 rounded-lg font-medium hover:bg-white/20 transition h-10 text-sm whitespace-nowrap backdrop-blur-sm"
                 >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     <span className="hidden sm:inline">Danh mục</span>
                 </button>
-
+                {/* ... (Dropdown giữ nguyên) ... */}
                 {isDropdownOpen && (
                     <>
                         <div className="fixed inset-0 z-10" onClick={() => setIsDropdownOpen(false)}></div>
-                        <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-20 overflow-hidden animate-in fade-in slide-in-from-top-2 text-gray-800">
-                            <button 
-                                onClick={() => { setIsDropdownOpen(false); router.push('/'); }}
-                                className="w-full text-left px-4 py-2 text-sm hover:bg-blue-50 font-bold border-b border-gray-100"
-                            >
-                                Tất cả
-                            </button>
+                        <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-slate-800 dark:border-slate-700 rounded-xl shadow-xl border border-gray-100 py-2 z-20 overflow-hidden text-gray-800 dark:text-gray-200">
+                             <button onClick={() => { setIsDropdownOpen(false); router.push('/'); }} className="w-full text-left px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-slate-700 font-bold border-b border-gray-100 dark:border-slate-700">Tất cả</button>
                             {categories.map((cat) => (
-                                <button key={cat} onClick={() => handleCategoryClick(cat)} className="w-full text-left px-4 py-2 text-sm hover:bg-blue-50 transition">
-                                    {cat}
-                                </button>
+                                <button key={cat} onClick={() => handleCategoryClick(cat)} className="w-full text-left px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-slate-700 transition">{cat}</button>
                             ))}
                         </div>
                     </>
                 )}
             </div>
 
-            {/* Ô Tìm Kiếm */}
-            <div className="flex-1 relative min-w-[200px]" ref={searchRef}>
+            {/* Ô Tìm Kiếm (Giữ nguyên logic) */}
+            <div className="flex-1 relative min-w-[160px]" ref={searchRef}>
                 <input 
                     type="text" 
                     placeholder="Tìm kiếm..." 
-                    className="w-full pl-10 pr-4 py-2 bg-white text-gray-800 border-none focus:ring-2 focus:ring-blue-400 rounded-lg transition-all text-sm h-10 shadow-inner"
+                    className="w-full pl-10 pr-4 py-2 bg-white text-gray-800 border-none focus:ring-2 focus:ring-blue-400 rounded-lg transition-all text-sm h-10 shadow-inner" 
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     onKeyDown={handleKeyDown}
@@ -123,17 +146,14 @@ function SearchAndMenu() {
                 <svg className="w-4 h-4 text-gray-500 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
 
                 {showHistory && history.length > 0 && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-100 z-30 overflow-hidden animate-in fade-in slide-in-from-top-1">
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-100 z-30 overflow-hidden">
                         <div className="px-3 py-2 text-xs font-bold text-gray-400 bg-gray-50 border-b border-gray-100 flex justify-between items-center">
                             <span>LỊCH SỬ</span>
-                            <button onClick={() => {setHistory([]); localStorage.removeItem('searchHistory')}} className="hover:text-red-500">Xóa hết</button>
+                            <button onClick={() => {setHistory([]); localStorage.removeItem('searchHistory')}} className="hover:text-red-500">Xóa</button>
                         </div>
                         {history.map((item, index) => (
                             <div key={index} onClick={() => { setSearchTerm(item); handleSearch(item); }} className="px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 cursor-pointer flex justify-between items-center group">
-                                <div className="flex items-center gap-2">
-                                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    {item}
-                                </div>
+                                {item}
                                 <button onClick={(e) => deleteHistoryItem(e, item)} className="text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1">&times;</button>
                             </div>
                         ))}

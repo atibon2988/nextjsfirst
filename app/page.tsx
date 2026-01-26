@@ -22,7 +22,7 @@ function ItemCard({ item }: { item: any }) {
 
     return (
         <Link href={`/software/${item.id}`} className="block h-full">
-            <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col group h-full overflow-hidden cursor-pointer">
+            <div className="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col group h-full overflow-hidden cursor-pointer">
                 <div className="h-48 w-full overflow-hidden relative">
                     {item.imageUrl ? (
                         <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"/>
@@ -37,8 +37,8 @@ function ItemCard({ item }: { item: any }) {
                 </div>
                 <div className="p-5 flex-1 flex flex-col">
                     <div className="text-gray-400 text-xs mb-2 flex items-center gap-1">📅 {item.date}</div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">{item.title}</h3>
-                    <p className="text-gray-500 text-sm line-clamp-2 leading-relaxed">{item.description}</p>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                    <p className="text-gray-500 dark:text-gray-400 text-sm line-clamp-2 leading-relaxed">
                 </div>
             </div>
         </Link>

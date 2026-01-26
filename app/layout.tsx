@@ -10,20 +10,13 @@ export const metadata: Metadata = {
   description: 'Tải phần mềm, game, nhạc chất lượng cao.',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="vi">
-      {/* THAY ĐỔI Ở ĐÂY: Thêm class bg-slate-100 vào body */}
-      <body className={`${inter.className} bg-slate-100 text-slate-900`}>
-        
+      {/* Thêm dark:bg-slate-900 và dark:text-white */}
+      <body className={`${inter.className} bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-white transition-colors duration-300`}>
         <Header />
-        
         {children}
-        
       </body>
     </html>
   );
