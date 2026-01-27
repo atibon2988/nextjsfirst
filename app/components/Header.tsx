@@ -50,9 +50,9 @@ export default function Header() {
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
       isScrolled 
-        ? 'bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl py-2 shadow-lg' 
-        : 'bg-white/30 dark:bg-slate-900/30 backdrop-blur-md py-4'
-    }`}>
+        ? 'bg-white/10 dark:bg-slate-900/10 backdrop-blur-md py-2 shadow-sm border-b border-white/5' 
+        : 'bg-white/5 dark:bg-slate-900/5 backdrop-blur-sm py-4'
+    }`}>    
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center gap-4">
         
         <div className="flex items-center gap-6">
@@ -76,7 +76,7 @@ export default function Header() {
 
 
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-6">
           {/* DANH MỤC SỔ XUỐNG (Đầy đủ 6 mục yêu cầu) */}
           <div className="relative" ref={menuRef}>
             <button 
