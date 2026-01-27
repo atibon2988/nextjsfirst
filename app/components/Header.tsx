@@ -178,7 +178,7 @@ export default function Header() {
                       />
   
                       {/* Tên thương hiệu bên cạnh logo (nếu muốn giữ lại) */}
-                      <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                      <span className="text-xl font-bold tracking-tight text-white dark:text-white group-hover:text-blue-600 transition-colors">
                                 AnyThink
                       </span>
                     </Link>
