@@ -60,8 +60,8 @@ export default function Header() {
             <img 
               src="/logo.png" 
               alt="Logo" 
-              className={`h-10 w-auto transition-all duration-500 ${
-                theme === 'dark' ? 'brightness-0 invert' : ''
+              className={`h-25 w-auto transition-all duration-500 ${
+                theme === 'dark' ? 'invert brightness-200' : 'brightness-0'
               }`} 
             />
             <span className="text-xl font-bold text-slate-900 dark:text-white transition-colors">
