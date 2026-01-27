@@ -2,75 +2,84 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useTheme } from 'next-themes'; // Nếu bạn dùng next-themes
+import { useTheme } from 'next-themes';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
 
-  // Theo dõi sự kiện cuộn chuột
+  // Đảm bảo component đã mounted để tránh lỗi hydration khi dùng next-themes
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  if (!mounted) return null;
+
   return (
     <header 
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-md py-2 shadow-sm' 
-          : 'bg-transparent py-5'
+          ? 'bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl py-2 shadow-lg' 
+          : 'bg-white/40 dark:bg-slate-900/40 backdrop-blur-md py-4'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center gap-4">
         
-        {/* LOGO THAY ĐỔI THEO TRẠNG THÁI */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="relative h-10 w-10">
-            {/* Logo cho nền tối (hiện khi ở trên cùng hoặc darkmode) */}
-            <img 
-              src="/logo-white.png" 
-              alt="Logo"
-              className={`absolute inset-0 transition-opacity duration-500 ${
-                isScrolled && theme !== 'dark' ? 'opacity-0' : 'opacity-100'
-              }`}
-            />
-            {/* Logo cho nền sáng (hiện khi cuộn xuống ở lightmode) */}
-            <img 
-              src="/logo-black.png" 
-              alt="Logo"
-              className={`absolute inset-0 transition-opacity duration-500 ${
-                isScrolled && theme !== 'dark' ? 'opacity-100' : 'opacity-0'
-              }`}
-            />
-          </div>
-          <span className={`text-2xl font-bold transition-colors duration-500 ${
-            isScrolled && theme !== 'dark' ? 'text-slate-900' : 'text-white'
-          }`}>
+        {/* 1. LOGO & BRAND */}
+        <Link href="/" className="flex items-center gap-2 flex-shrink-0 group">
+          <img 
+            src="/logo.png" 
+            alt="AnyThink Logo" 
+            className="h-9 w-auto object-contain transition-transform group-hover:scale-105"
+            // Nếu logo bị đen thui, hãy xóa dòng filter dưới đây
+            style={{ filter: theme === 'dark' ? 'brightness(0) invert(1)' : 'none' }}
+          />
+          <span className="text-xl font-bold tracking-tighter text-slate-900 dark:text-white hidden sm:block">
             AnyThink
           </span>
         </Link>
 
-        {/* MENU */}
-        <nav className={`hidden md:flex gap-8 font-medium transition-colors duration-500 ${
-          isScrolled && theme !== 'dark' ? 'text-slate-600' : 'text-white/90'
-        }`}>
-          <Link href="/" className="hover:text-blue-500 transition">Trang chủ</Link>
-          <Link href="/about" className="hover:text-blue-500 transition">Giới thiệu</Link>
-          <Link href="/contact" className="hover:text-blue-500 transition">Liên hệ</Link>
-        </nav>
+        {/* 2. THANH TÌM KIẾM (Search Bar) */}
+        <div className="flex-1 max-w-md relative group hidden sm:block">
+          <input
+            type="text"
+            placeholder="Tìm phần mềm, game..."
+            className="w-full bg-slate-100/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          />
+          <svg className="w-5 h-5 absolute left-3 top-2.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
 
-        {/* NÚT BẬT/TẮT DARK MODE (Giữ nguyên logic cũ của bạn) */}
-        <button className="...">
-           {/* Icon mặt trời/mặt trăng */}
-        </button>
+        {/* 3. NHÓM TÍNH NĂNG BÊN PHẢI */}
+        <div className="flex items-center gap-2 md:gap-4">
+          
+          {/* Nút Danh mục */}
+          <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium transition shadow-md shadow-blue-500/20">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+            <span className="hidden md:inline">Danh mục</span>
+          </button>
+
+          {/* Nút DarkMode */}
+          <button
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="p-2.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-yellow-400 hover:ring-2 ring-slate-200 dark:ring-slate-700 transition-all"
+          >
+            {theme === 'dark' ? (
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" /></svg>
+            ) : (
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.01 8.01 0 0010.586 10.586z" /></svg>
+            )}
+          </button>
+        </div>
       </div>
     </header>
   );
