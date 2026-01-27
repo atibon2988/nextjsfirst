@@ -108,7 +108,7 @@ export default function Header() {
           {/* NÚT DARKMODE */}
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="p-2.5 rounded-full bg-white/80 dark:bg-slate-900/80 bg-blue-50 dark:text-white border bg-white/80 dark:bg-slate-900/80 transition-transform active:scale-90"
+            className="p-2.5 rounded-full bg-white/80 dark:bg-slate-900/80 bg-blue-50 dark:text-white border bg-slate-900/80 dark:bg-white/80 transition-transform active:scale-90"
           >
           {theme === 'dark' ? (
           // ICON MẶT TRỜI (Hiển thị khi đang ở chế độ Dark)
