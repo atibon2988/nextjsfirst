@@ -169,8 +169,18 @@ export default function Header() {
         <header className="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 shadow-md sticky top-0 z-50 border-b border-blue-800">
             <div className="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="flex items-center w-full md:w-auto justify-between">
-                    <Link href="/" className="text-xl font-bold text-white tracking-tight flex items-center gap-2 hover:opacity-90 transition">
-                       <span className="text-2xl">🚀</span> KhoTaiNguyen
+                    <Link href="/" className="flex items-center gap-2 group">
+                      {/* Chèn logo ảnh vào đây */}
+                      <img 
+                        src="/logo.png" 
+                        alt="LMC Logo" 
+                        className="h-10 w-auto object-contain transition-transform group-hover:scale-105" 
+                      />
+  
+                      {/* Tên thương hiệu bên cạnh logo (nếu muốn giữ lại) */}
+                      <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                                KhoTaiNguyen
+                      </span>
                     </Link>
                     <nav className="flex gap-4 text-sm font-medium text-blue-100 md:hidden">
                         <Link href="/about" className="hover:text-white transition">Giới thiệu</Link>
