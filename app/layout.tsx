@@ -19,6 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       {/* Thêm dark:bg-slate-900 và dark:text-white */}
       <body className={`${inter.className} bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-white transition-colors duration-300`}>
         <Header />
+        <main className="pt-24 md:pt-28"> {/* Thêm dòng này để đẩy nội dung xuống */}
+        {children}
+        </main>
+        <Footer />
         {children}
       </body>
     </html>
