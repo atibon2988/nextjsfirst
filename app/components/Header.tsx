@@ -56,9 +56,17 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center gap-4">
         
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-            <img src="/logo.png" alt="Logo" className="h-20 w-auto" />
-            <span className="text-xl font-bold text-slate-900 dark:text-white">AnyThink</span>
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0 group">
+            <img 
+              src="/logo.png" 
+              alt="Logo" 
+              className={`h-10 w-auto transition-all duration-500 ${
+                theme === 'dark' ? 'brightness-0 invert' : ''
+              }`} 
+            />
+            <span className="text-xl font-bold text-slate-900 dark:text-white transition-colors">
+              AnyThink
+            </span>
           </Link>
           <nav className="hidden lg:flex gap-6 text-sm font-medium text-slate-700 dark:text-slate-200">
             <Link href="/" className="hover:text-blue-600 transition">Trang chủ</Link>
@@ -66,21 +74,7 @@ export default function Header() {
           </nav>
         </div>
 
-        {/* SEARCH BAR (Logic lọc tại trang chủ) */}
-        <form onSubmit={handleSearch} className="flex-1 max-w-md relative hidden md:block">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Tìm kiếm tài nguyên..."
-            className="w-full bg-slate-200/50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 focus:border-blue-500 rounded-full py-2 pl-10 pr-4 text-slate-900 dark:text-white outline-none transition-all"
-          />
-          <button type="submit" className="absolute left-3 top-2.5 text-slate-500 hover:text-blue-500">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </button>
-        </form>
+
 
         <div className="flex items-center gap-3">
           {/* DANH MỤC SỔ XUỐNG (Đầy đủ 6 mục yêu cầu) */}
@@ -106,6 +100,21 @@ export default function Header() {
               </div>
             )}
           </div>
+        {/* SEARCH BAR (Logic lọc tại trang chủ) */}
+        <form onSubmit={handleSearch} className="flex-1 max-w-md relative hidden md:block">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Tìm kiếm tài nguyên..."
+            className="w-full bg-slate-200/50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 focus:border-blue-500 rounded-full py-2 pl-10 pr-4 text-slate-900 dark:text-white outline-none transition-all"
+          />
+          <button type="submit" className="absolute left-3 top-2.5 text-slate-500 hover:text-blue-500">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </form>
 
           {/* NÚT DARKMODE */}
           <button
