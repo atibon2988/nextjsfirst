@@ -85,7 +85,14 @@ function FilteredView({ search, category }: { search: string, category: string }
         const matchesCategory = category ? item.category === category : true;
         return matchesSearch && matchesCategory;
     });
-
+    if (filteredItems.length === 0) {
+        return (
+            <div className="text-center py-20">
+                <p className="text-gray-500 dark:text-gray-400 text-xl">Rất tiếc, không tìm thấy tài nguyên nào phù hợp với "{search}"</p>
+                <Link href="/" className="text-blue-600 mt-4 inline-block">Quay lại trang chủ</Link>
+            </div>
+        );
+    }
     return (
         <div>
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
@@ -100,9 +107,18 @@ function FilteredView({ search, category }: { search: string, category: string }
 
 function MainContent() {
     const searchParams = useSearchParams();
+    
+    // Header gửi ?search=... nên ta giữ nguyên
     const search = searchParams.get('search');
-    const category = searchParams.get('category');
-    if (search || category) return <FilteredView search={search || ""} category={category || ""} />;
+    
+    // Header gửi ?cat=... (ở bản Header trước) hoặc ?category=... 
+    // Chúng ta sẽ kiểm tra cả hai để chắc chắn không sót
+    const category = searchParams.get('category') || searchParams.get('cat');
+    
+    if (search || category) {
+        return <FilteredView search={search || ""} category={category || ""} />;
+    }
+    
     return <DefaultHomeView />;
 }
 
