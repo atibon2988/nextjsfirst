@@ -50,8 +50,8 @@ export default function Header() {
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
       isScrolled 
-        ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl py-2 shadow-lg' 
-        : 'bg-white/60 dark:bg-slate-900/60 backdrop-blur-md py-4'
+        ? 'bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl py-2 shadow-lg' 
+        : 'bg-white/30 dark:bg-slate-900/30 backdrop-blur-md py-4'
     }`}>
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center gap-4">
         
@@ -87,9 +87,11 @@ export default function Header() {
           <div className="relative" ref={menuRef}>
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-md shadow-blue-500/20"
+              className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
               <span>Danh mục</span>
             </button>
 
@@ -108,19 +110,18 @@ export default function Header() {
           {/* NÚT DARKMODE */}
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="p-2.5 rounded-full bg-white/80 dark:bg-slate-900/80 bg-blue-50 dark:text-white border bg-slate-900/80 dark:bg-white/80 transition-transform active:scale-90"
+            className="p-2 rounded-full text-slate-700 dark:text-yellow-400 hover:bg-black/5 dark:hover:bg-white/10 transition-all duration-300"
+            aria-label="Toggle Dark Mode"
           >
-          {theme === 'dark' ? (
-          // ICON MẶT TRỜI (Hiển thị khi đang ở chế độ Dark)
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-          </svg>
-          ) : (
-          // ICON MẶT TRĂNG (Hiển thị khi đang ở chế độ Light)
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-          </svg>
-  )}
+            {theme === 'dark' ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            )}
           </button>
         </div>
       </div>
