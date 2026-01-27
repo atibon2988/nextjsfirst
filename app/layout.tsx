@@ -1,28 +1,16 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
-import Header from './components/Header'; // Import Header vào
-
-const inter = Inter({ subsets: ['latin'] });
-
-export const metadata: Metadata = {
-  title: 'AnyThink',
-  description: 'Tải phần mềm, game, nhạc chất lượng cao.',
-  icons: {
-    icon: '/logo.png', // Nó sẽ lấy file logo.png làm icon trên tab
-  },
-};
-
+// Trong file app/layout.tsx
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi">
-      {/* Thêm dark:bg-slate-900 và dark:text-white */}
-      <body className={`${inter.className} bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-white transition-colors duration-300`}>
-        <Header />
-        <main className="pt-24 md:pt-28"> {/* Thêm dòng này để đẩy nội dung xuống */}
-        {children}
-        </main>
-        {children}
+    <html lang="vi" suppressHydrationWarning>
+      <body className="bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Header />
+          {/* pt-28 giúp đẩy nội dung xuống dưới Header 1 khoảng 112px */}
+          <main className="pt-24 md:pt-32 min-h-screen">
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
