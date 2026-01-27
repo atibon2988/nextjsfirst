@@ -6,8 +6,11 @@ import Header from './components/Header'; // Import Header vào
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Kho Tài Nguyên Miễn Phí',
+  title: 'AnyThink',
   description: 'Tải phần mềm, game, nhạc chất lượng cao.',
+  icons: {
+    icon: '/logo.png', // Nó sẽ lấy file logo.png làm icon trên tab
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

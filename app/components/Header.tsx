@@ -179,7 +179,7 @@ export default function Header() {
   
                       {/* Tên thương hiệu bên cạnh logo (nếu muốn giữ lại) */}
                       <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">
-                                KhoTaiNguyen
+                                AnyThink
                       </span>
                     </Link>
                     <nav className="flex gap-4 text-sm font-medium text-blue-100 md:hidden">
