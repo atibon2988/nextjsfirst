@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class', // <--- DÒNG QUAN TRỌNG NHẤT
+  darkMode: 'class', // BẮT BUỘC CÓ DÒNG NÀY
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,5 +9,5 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [], // Xóa plugin typography nếu bạn chưa cài, để tránh lỗi
 }
