@@ -22,7 +22,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="pt-24 md:pt-28"> {/* Thêm dòng này để đẩy nội dung xuống */}
         {children}
         </main>
-        <Footer />
         {children}
       </body>
     </html>
