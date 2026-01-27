@@ -57,7 +57,7 @@ export default function Header() {
         
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-            <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
+            <img src="/logo.png" alt="Logo" className="h-20 w-auto" />
             <span className="text-xl font-bold text-slate-900 dark:text-white">AnyThink</span>
           </Link>
           <nav className="hidden lg:flex gap-6 text-sm font-medium text-slate-700 dark:text-slate-200">
