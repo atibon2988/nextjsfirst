@@ -7,7 +7,7 @@ export const allItems = [
   {
     id: 101,
     title: "Ra mắt Galaxy S25 Ultra: AI đỉnh cao",
-    imageUrl: "https://images.unsplash.com/photo-1610945265078-38584e12e4c6?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "https://unsplash.com/photos/a-cell-phone-sitting-on-top-of-a-table-next-to-a-lamp-mzNVfDZMUPA?q=80&w=800&auto=format&fit=crop",
     description: "Samsung chính thức công bố siêu phẩm mới với chip Snapdragon 8 Gen 5 ok.",
     category: "Tin tức",
     date: "2024-01-26",
@@ -40,7 +40,7 @@ export const allItems = [
   {
     id: 104,
     title: "Công nghệ pin hạt nhân cho điện thoại",
-    imageUrl: "https://images.unsplash.com/photo-1569992923588-4447ad9527f4?w=800&q=80",
+    imageUrl: "https://unsplash.com/photos/yellow-and-black-road-sign-CTkLczb9HeA?w=800&q=80",
     description: "Pin dùng 50 năm không cần sạc đang được Trung Quốc thử nghiệm.",
     category: "Tin tức",
     date: "2024-01-23",
@@ -126,7 +126,7 @@ export const allItems = [
   {
     id: 205,
     title: "GTA San Andreas: Remastered",
-    imageUrl: "https://images.unsplash.com/photo-1558945622-c3595cb53746?w=800&q=80",
+    imageUrl: "https://unsplash.com/photos/palm-trees-on-the-beach-during-sunset-iksLKjO_ypA?w=800&q=80",
     description: "Đồ họa 4K, Việt hóa 100% cốt truyện.",
     category: "Game",
     date: "2024-01-22",
@@ -170,7 +170,7 @@ export const allItems = [
   {
     id: 208,
     title: "Asphalt 9: Legends (Offline)",
-    imageUrl: "https://images.unsplash.com/photo-1605901309584-818e25960b8f?w=800&q=80",
+    imageUrl: "https://unsplash.com/photos/a-green-race-car-speeds-down-a-track-BJC2CiANkno?w=800&q=80",
     description: "Phiên bản mod chơi không cần mạng, full tiền.",
     category: "Game",
     date: "2024-01-19",
@@ -201,7 +201,7 @@ export const allItems = [
   {
     id: 302,
     title: "Review iPhone 16 Pro Max",
-    imageUrl: "https://images.unsplash.com/photo-1512054502232-120fea5a3181?w=800&q=80",
+    imageUrl: "https://unsplash.com/photos/two-iphones-sitting-side-by-side-on-a-table-uumtSKNTjss?w=800&q=80",
     description: "Có đáng nâng cấp từ iPhone 15?",
     category: "Video",
     date: "2024-01-25",
@@ -244,7 +244,7 @@ export const allItems = [
   {
     id: 305,
     title: "Nhạc Lofi Chill Học Bài",
-    imageUrl: "https://images.unsplash.com/photo-1516280440614-6697288d5d38?w=800&q=80",
+    imageUrl: "https://unsplash.com/photos/rain-drops-on-window-glass-HCDugQDdtfc?w=800&q=80",
     description: "Tổng hợp 2 giờ nhạc không lời thư giãn.",
     category: "Video",
     date: "2024-01-22",
@@ -274,7 +274,7 @@ export const allItems = [
   {
     id: 401,
     title: "Bộ sưu tập Wallpaper Cyberpunk",
-    imageUrl: "https://images.unsplash.com/photo-1535378437327-10886151021c?w=800&q=80",
+    imageUrl: "https://unsplash.com/photos/people-walking-on-walkway-during-nighttime-7PqRZK6rbaE?w=800&q=80",
     description: "Hình nền 4K chủ đề tương lai neon rực rỡ.",
     category: "Ảnh",
     date: "2024-01-26",
@@ -314,7 +314,7 @@ export const allItems = [
   {
     id: 405,
     title: "Siêu Xe & Tốc Độ",
-    imageUrl: "https://images.unsplash.com/photo-1503376763036-066120622c74?w=800&q=80",
+    imageUrl: "https://unsplash.com/photos/a-black-and-red-sports-car-driving-down-the-road-9bsNq1JOt20?w=800&q=80",
     description: "Lamborghini, Ferrari, Bugatti độ phân giải 8K.",
     category: "Ảnh",
     date: "2024-01-22",
@@ -450,7 +450,7 @@ export const allItems = [
   {
     id: 604,
     title: "Nhạc Thiền - Dễ Ngủ",
-    imageUrl: "https://images.unsplash.com/photo-1515023663285-11ad160cc1cf?w=800&q=80",
+    imageUrl: "https://unsplash.com/photos/brown-buddha-statue-near-green-mountain-under-blue-sky-during-daytime-jwr0xaXsYKk?w=800&q=80",
     description: "Âm thanh mưa rơi và tiếng suối chảy.",
     category: "Nhạc",
     date: "2024-01-23",
