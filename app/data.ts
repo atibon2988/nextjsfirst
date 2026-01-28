@@ -1,4 +1,15 @@
 // app/data.ts
+export interface Item {
+  id: string;          // Quan trọng: Để string
+  title: string;
+  description: string;
+  category: string;
+  imageUrl: string;
+  date: string;
+  views: number;       // Đã thêm views
+  downloadUrl?: string;
+  detailContent?: string;
+}
 
 export const allItems = [
   // =========================================
