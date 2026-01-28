@@ -16,7 +16,7 @@ export const allItems = [
   // 1. MỤC TIN TỨC (5 BÀI)
   // =========================================
   {
-    id: 101,
+    id: "101",
     title: "Ra mắt Galaxy S25 Ultra: AI đỉnh cao",
     imageUrl: "https://unsplash.com/photos/a-cell-phone-sitting-on-top-of-a-table-next-to-a-lamp-mzNVfDZMUPA?q=80&w=800&auto=format&fit=crop",
     description: "Samsung chính thức công bố siêu phẩm mới với chip Snapdragon 8 Gen 5 ok.",
@@ -27,7 +27,7 @@ export const allItems = [
     detailContent: "Samsung vừa chính thức ra mắt Galaxy S25 Ultra..."
   },
   {
-    id: 102,
+    id: "102",
     title: "Windows 12 lộ diện giao diện mới",
     imageUrl: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop",
     description: "Microsoft thay đổi hoàn toàn thanh Taskbar, tích hợp sâu Copilot.",
@@ -37,7 +37,7 @@ export const allItems = [
     detailContent: "Giao diện Windows 12 sẽ có thiết kế nổi..."
   },
   {
-    id: 103,
+    id: "103",
     title: "Giá Bitcoin vượt mốc 100k USD",
     imageUrl: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=800&q=80",
     description: "Thị trường tiền điện tử bùng nổ trở lại sau đợt Halving.",
@@ -50,7 +50,7 @@ export const allItems = [
     `
   },
   {
-    id: 104,
+    id: "104",
     title: "Công nghệ pin hạt nhân cho điện thoại",
     imageUrl: "https://unsplash.com/photos/yellow-and-black-road-sign-CTkLczb9HeA?w=800&q=80",
     description: "Pin dùng 50 năm không cần sạc đang được Trung Quốc thử nghiệm.",
@@ -63,7 +63,7 @@ export const allItems = [
     `
   },
   {
-    id: 105,
+    id: "105",
     title: "Google ra mắt Gemini 2.0 Ultra",
     imageUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80",
     description: "Mô hình AI mới thông minh gấp đôi GPT-5.",
@@ -80,7 +80,7 @@ export const allItems = [
   // 2. MỤC GAME (8 BÀI)
   // =========================================
   {
-    id: 201,
+    id: "201",
     title: "Genshin Impact (Lite Version)",
     imageUrl: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80",
     description: "Bản giảm dung lượng siêu nhẹ cho máy cấu hình thấp.",
@@ -97,7 +97,7 @@ export const allItems = [
     `
   },
   {
-    id: 202,
+    id: "202",
     title: "PUBG Mobile: Update Tết 2026",
     imageUrl: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
     description: "Chế độ Rồng Thần và skin súng mới cực đẹp.",
@@ -110,7 +110,7 @@ export const allItems = [
     `
   },
   {
-    id: 203,
+    id: "203",
     title: "Liên Quân Mobile (Mod Skin)",
     imageUrl: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&q=80",
     description: "Mở khóa full trang phục SSS, hiệu ứng gốc.",
@@ -123,7 +123,7 @@ export const allItems = [
     `
   },
   {
-    id: 204,
+    id: "204",
     title: "Minecraft PE 1.22 Tiếng Việt",
     imageUrl: "https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=800&q=80",
     description: "Đã mở khóa đăng nhập Xbox Live và Server.",
@@ -136,7 +136,7 @@ export const allItems = [
     `
   },
   {
-    id: 205,
+    id: "205",
     title: "GTA San Andreas: Remastered",
     imageUrl: "https://unsplash.com/photos/palm-trees-on-the-beach-during-sunset-iksLKjO_ypA?w=800&q=80",
     description: "Đồ họa 4K, Việt hóa 100% cốt truyện.",
@@ -150,7 +150,7 @@ export const allItems = [
     `
   },
   {
-    id: 206,
+    id: "206",
     title: "Roblox Mod Menu V8",
     imageUrl: "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=800&q=80",
     description: "Hack bay, đi xuyên tường, tự động farm Blox Fruit.",
@@ -167,7 +167,7 @@ export const allItems = [
     `
   },
   {
-    id: 207,
+    id: "207",
     title: "Play Together VNG",
     imageUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800&q=80",
     description: "Tool hỗ trợ câu cá hiếm, lọc bóng 5.",
@@ -180,7 +180,7 @@ export const allItems = [
     `
   },
   {
-    id: 208,
+    id: "208",
     title: "Asphalt 9: Legends (Offline)",
     imageUrl: "https://unsplash.com/photos/a-green-race-car-speeds-down-a-track-BJC2CiANkno?w=800&q=80",
     description: "Phiên bản mod chơi không cần mạng, full tiền.",
@@ -198,7 +198,7 @@ export const allItems = [
   // 3. MỤC VIDEO (6 BÀI)
   // =========================================
   {
-    id: 301,
+    id: "301",
     title: "Học Lập Trình ReactJS trong 1 Giờ",
     imageUrl: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80",
     description: "Khóa học cấp tốc cho người mới bắt đầu.",
@@ -211,7 +211,7 @@ export const allItems = [
     `
   },
   {
-    id: 302,
+    id: "302",
     title: "Review iPhone 16 Pro Max",
     imageUrl: "https://unsplash.com/photos/two-iphones-sitting-side-by-side-on-a-table-uumtSKNTjss?w=800&q=80",
     description: "Có đáng nâng cấp từ iPhone 15?",
@@ -225,7 +225,7 @@ export const allItems = [
     `
   },
   {
-    id: 303,
+    id: "303",
     title: "Setup Góc Làm Việc Dev 2026",
     imageUrl: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=800&q=80",
     description: "Tham quan bàn làm việc lập trình viên Fullstack.",
@@ -241,7 +241,7 @@ export const allItems = [
     `
   },
   {
-    id: 304,
+    id: "304",
     title: "Cài Linux lên điện thoại Android",
     imageUrl: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&q=80",
     description: "Biến điện thoại thành máy chủ mini.",
@@ -254,7 +254,7 @@ export const allItems = [
     `
   },
   {
-    id: 305,
+    id: "305",
     title: "Nhạc Lofi Chill Học Bài",
     imageUrl: "https://unsplash.com/photos/rain-drops-on-window-glass-HCDugQDdtfc?w=800&q=80",
     description: "Tổng hợp 2 giờ nhạc không lời thư giãn.",
@@ -267,7 +267,7 @@ export const allItems = [
     `
   },
   {
-    id: 306,
+    id: "306",
     title: "Mẹo Tối Ưu Windows 11",
     imageUrl: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=800&q=80",
     description: "Tắt các service thừa để máy chạy nhanh như gió.",
@@ -284,7 +284,7 @@ export const allItems = [
   // 4. MỤC ẢNH (7 BÀI)
   // =========================================
   {
-    id: 401,
+    id: "401",
     title: "Bộ sưu tập Wallpaper Cyberpunk",
     imageUrl: "https://unsplash.com/photos/people-walking-on-walkway-during-nighttime-7PqRZK6rbaE?w=800&q=80",
     description: "Hình nền 4K chủ đề tương lai neon rực rỡ.",
@@ -294,7 +294,7 @@ export const allItems = [
     detailContent: "Link Google Drive tải trọn bộ 50 tấm ảnh chất lượng gốc (PNG)."
   },
   {
-    id: 402,
+    id: "402",
     title: "Ảnh Phong Cảnh Thiên Nhiên",
     imageUrl: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&q=80",
     description: "Những ngọn núi và dòng sông hùng vĩ.",
@@ -304,7 +304,7 @@ export const allItems = [
     detailContent: "Bộ ảnh chụp từ các nhiếp ảnh gia National Geographic. Thích hợp làm hình nền máy tính."
   },
   {
-    id: 403,
+    id: "403",
     title: "Anime Girls Pack 4K",
     imageUrl: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&q=80",
     description: "Hình nền nhân vật nữ Anime dễ thương.",
@@ -314,7 +314,7 @@ export const allItems = [
     detailContent: "Tổng hợp các Waifu từ Genshin, Honkai và các bộ Anime nổi tiếng mùa này."
   },
   {
-    id: 404,
+    id: "404",
     title: "Minimalist Dark Mode",
     imageUrl: "https://images.unsplash.com/photo-1449844908441-8829872d2607?w=800&q=80",
     description: "Hình nền tối giản, bảo vệ mắt cho màn hình OLED.",
@@ -324,7 +324,7 @@ export const allItems = [
     detailContent: "Những tấm ảnh chủ đạo màu đen, điểm xuyết vài chi tiết nhỏ tinh tế."
   },
   {
-    id: 405,
+    id: "405",
     title: "Siêu Xe & Tốc Độ",
     imageUrl: "https://unsplash.com/photos/a-black-and-red-sports-car-driving-down-the-road-9bsNq1JOt20?w=800&q=80",
     description: "Lamborghini, Ferrari, Bugatti độ phân giải 8K.",
@@ -334,7 +334,7 @@ export const allItems = [
     detailContent: "Dành cho những đam mê tốc độ. Ảnh sắc nét đến từng con ốc."
   },
   {
-    id: 406,
+    id: "406",
     title: "Vũ Trụ Bao La",
     imageUrl: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800&q=80",
     description: "Ảnh chụp từ kính viễn vọng James Webb.",
@@ -344,7 +344,7 @@ export const allItems = [
     detailContent: "Khám phá vẻ đẹp của các tinh vân và thiên hà cách chúng ta hàng triệu năm ánh sáng."
   },
   {
-    id: 407,
+    id: "407",
     title: "Cảm Hứng Coding",
     imageUrl: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80",
     description: "Hình nền các dòng code và setup máy tính.",
@@ -358,7 +358,7 @@ export const allItems = [
   // 5. MỤC PHẦN MỀM (5 BÀI)
   // =========================================
   {
-    id: 501,
+    id: "501",
     title: "VS Code for Android",
     imageUrl: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800&q=80",
     description: "Trình soạn thảo code chuyên nghiệp nhất trên điện thoại.",
@@ -372,7 +372,7 @@ export const allItems = [
     `
   },
   {
-    id: 502,
+    id: "502",
     title: "Termux Premium",
     imageUrl: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&q=80",
     description: "Giả lập dòng lệnh Linux mạnh mẽ.",
@@ -385,7 +385,7 @@ export const allItems = [
     `
   },
   {
-    id: 503,
+    id: "503",
     title: "Adobe Photoshop Touch",
     imageUrl: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=800&q=80",
     description: "Huyền thoại chỉnh ảnh layer trên Mobile.",
@@ -398,7 +398,7 @@ export const allItems = [
     `
   },
   {
-    id: 504,
+    id: "504",
     title: "IDM+ Mobile Downloader",
     imageUrl: "https://images.unsplash.com/photo-1623282033815-40b05d96c903?w=800&q=80",
     description: "Tăng tốc tải file gấp 500%.",
@@ -412,7 +412,7 @@ export const allItems = [
     `
   },
   {
-    id: 505,
+    id: "505",
     title: "Es File Explorer Pro",
     imageUrl: "https://images.unsplash.com/photo-1544396821-4dd40b938ad3?w=800&q=80",
     description: "Quản lý file hệ thống, giải nén ZIP/RAR.",
@@ -430,7 +430,7 @@ export const allItems = [
   // 6. MỤC NHẠC (4 BÀI)
   // =========================================
   {
-    id: 601,
+    id: "601",
     title: "Tuyển Tập Sơn Tùng M-TP",
     imageUrl: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=800&q=80",
     description: "Những bản hit đình đám nhất sự nghiệp.",
@@ -440,7 +440,7 @@ export const allItems = [
     detailContent: "Playlist bao gồm: Chúng ta của tương lai, Lạc Trôi, Em của ngày hôm qua... chất lượng Lossless (FLAC)."
   },
   {
-    id: 602,
+    id: "602",
     title: "Nhạc Không Lời Coding Focus",
     imageUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80",
     description: "Nhạc sóng não Alpha giúp tập trung cao độ.",
@@ -450,7 +450,7 @@ export const allItems = [
     detailContent: "Tuyển tập những bản nhạc Piano và Electronic nhẹ nhàng, loại bỏ tạp âm để bạn Code không ngừng nghỉ."
   },
   {
-    id: 603,
+    id: "603",
     title: "Remix TikTok 2026 Cực Căng",
     imageUrl: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80",
     description: "Nhạc quẩy Vinahouse bass đập tức ngực.",
@@ -460,7 +460,7 @@ export const allItems = [
     detailContent: "Tổng hợp các trend nhạc hot nhất TikTok tháng này. Thích hợp để bật trong các buổi Party."
   },
   {
-    id: 604,
+    id: "604",
     title: "Nhạc Thiền - Dễ Ngủ",
     imageUrl: "https://unsplash.com/photos/brown-buddha-statue-near-green-mountain-under-blue-sky-during-daytime-jwr0xaXsYKk?w=800&q=80",
     description: "Âm thanh mưa rơi và tiếng suối chảy.",
