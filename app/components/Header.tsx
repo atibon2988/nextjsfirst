@@ -60,8 +60,8 @@ export default function Header() {
           <img 
             src="/logo.png" 
             alt="Logo" 
-            className={`h-10 w-auto transition-all duration-500 ${
-              theme === 'dark' ? 'invert brightness-200' : 'brightness-0'
+            className={`h-20 w-auto transition-all duration-500 ${
+              theme === 'dark' ? 'invert brightness-0' : 'brightness-0'
             }`} 
           />
           <span className="text-xl font-bold text-slate-900 dark:text-white transition-colors">
@@ -117,6 +117,14 @@ export default function Header() {
             )}
           </div>
 
+          {/* Donate */}
+          <Link href="/donate" className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 transition hidden sm:block">
+            Donate
+          </Link>
+          {/* Góp ý */}
+          <Link href="/feedback" className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 transition hidden sm:block">
+            Góp ý
+          </Link>
           {/* GIỚI THIỆU */}
           <Link href="/about" className="text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 transition hidden sm:block">
             Giới thiệu
