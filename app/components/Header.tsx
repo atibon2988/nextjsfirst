@@ -89,7 +89,7 @@ export default function Header() {
     switch (condition) {
       case 'Clear': // Nắng
         return (
-          <svg className="w-5 h-5 text-yellow-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 text-yellow-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
           </svg>
         );
@@ -97,14 +97,14 @@ export default function Header() {
       case 'Drizzle':
       case 'Thunderstorm':
         return (
-          <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         );
       case 'Clouds': // Mây
       default:
         return (
-          <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
           </svg>
         );
@@ -142,7 +142,7 @@ export default function Header() {
             <img 
               src="/logo.png" 
               alt="Logo" 
-              className={`h-9 w-auto transition-all duration-500 ${theme === 'dark' ? 'invert brightness-200' : 'brightness-0'}`} 
+              className={`h-20 w-auto transition-all duration-500 ${theme === 'dark' ? 'invert brightness-0' : 'brightness-0'}`} 
             />
             <span className="text-xl font-bold text-slate-900 dark:text-white">AnyThink</span>
           </Link>
