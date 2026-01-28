@@ -1,5 +1,10 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Giới thiệu',
+  description: 'Câu chuyện về AnyThink và sứ mệnh chia sẻ tri thức miễn phí.',
+};
 export default function About() {
   return (
     <main className="min-h-screen bg-slate-50">

@@ -5,7 +5,26 @@ import { allItems } from '../../data';
 interface Props {
   params: Promise<{ id: string }>;
 }
+import { allItems } from '@/app/data'; // Import dữ liệu của bạn
+import type { Metadata } from 'next';
 
+type Props = {
+  params: { id: string }
+};
+
+// Hàm này chạy trước khi trang load để tạo tiêu đề động
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // Tìm bài viết theo ID
+  const item = allItems.find((p) => p.id === params.id);
+  
+  return {
+    title: item ? item.title : 'Không tìm thấy', // Nếu có bài thì lấy tên, không thì báo lỗi
+    description: item ? item.description : 'Chi tiết phần mềm tải miễn phí.',
+    openGraph: {
+      images: [item?.imageUrl || '/logo.png'], // Khi share Facebook sẽ hiện ảnh phần mềm này
+    },
+  };
+}
 export default async function DetailPage({ params }: Props) {
   const { id } = await params;
   const itemId = parseInt(id);

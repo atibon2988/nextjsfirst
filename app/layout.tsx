@@ -27,7 +27,7 @@ export const metadata: Metadata = {
       {
         url: '/logo.png', // Ảnh hiển thị khi share link lên Facebook/Zalo
         width: 800,
-        height: 600,
+        height: 800,
       },
     ],
     locale: 'vi_VN',
