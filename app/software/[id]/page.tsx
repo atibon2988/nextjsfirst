@@ -12,7 +12,7 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const item = allItems.find((p) => p.id === params.id);
+  const item = allItems.find((p) => String(p.id) === params.id);
   
   if (!item) {
     return { title: 'Không tìm thấy tài nguyên' };
@@ -30,7 +30,7 @@ export async function generateMetadata(
 // 2. GIAO DIỆN TRANG CHI TIẾT
 export default function SoftwareDetail({ params }: Props) {
   // Tìm dữ liệu dựa trên ID trên URL
-  const item = allItems.find((p) => p.id === params.id);
+  const item = allItems.find((p) => String(p.id) === params.id);
 
   // Nếu không thấy -> Chuyển sang trang 404
   if (!item) {

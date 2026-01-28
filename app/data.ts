@@ -11,6 +11,7 @@ export const allItems = [
     description: "Samsung chính thức công bố siêu phẩm mới với chip Snapdragon 8 Gen 5 ok.",
     category: "Tin tức",
     date: "2024-01-26",
+    views: 1990,
     downloadUrl: "#",
     detailContent: "Samsung vừa chính thức ra mắt Galaxy S25 Ultra..."
   },
