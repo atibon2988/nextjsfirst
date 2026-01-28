@@ -80,28 +80,73 @@ export default function Header() {
     return () => clearInterval(timer);
   }, []);
 
-  // 3. HÀM CHỌN ICON (Đã giảm kích thước xuống w-4 h-4)
+  // 3. HÀM CHỌN ICON (ĐẦY ĐỦ CÁC TRƯỜNG HỢP CỦA OPENWEATHERMAP)
   const getWeatherIcon = (condition: string) => {
     switch (condition) {
-      case 'Clear': // Nắng
+      // 1. Nhóm Nắng/Quang đãng
+      case 'Clear': 
         return (
           <svg className="w-4 h-4 text-yellow-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
           </svg>
         );
-      case 'Rain': // Mưa
+
+      // 2. Nhóm Mây (Clouds)
+      case 'Clouds': 
+        return (
+          <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+          </svg>
+        );
+
+      // 3. Nhóm Mưa (Rain) & Mưa phùn (Drizzle)
+      case 'Rain':
       case 'Drizzle':
-      case 'Thunderstorm':
         return (
           <svg className="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         );
-      case 'Clouds': // Mây
+
+      // 4. Nhóm Dông bão (Thunderstorm)
+      case 'Thunderstorm':
+        return (
+          <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        );
+
+      // 5. Nhóm Tuyết (Snow)
+      case 'Snow':
+        return (
+          <svg className="w-4 h-4 text-sky-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v18m9-9H3m15.364-6.364l-12.728 12.728M6.343 6.343l12.728 12.728" />
+            <circle cx="12" cy="12" r="2" fill="currentColor" />
+          </svg>
+        );
+
+      // 6. Nhóm Khí quyển (Sương mù, Bụi, Khói...)
+      // OpenWeatherMap trả về rất nhiều mã cho nhóm này: Mist, Smoke, Haze, Dust, Fog, Sand, Ash, Squall, Tornado
+      case 'Mist':
+      case 'Smoke':
+      case 'Haze':
+      case 'Dust':
+      case 'Fog':
+      case 'Sand':
+      case 'Ash':
+      case 'Squall':
+      case 'Tornado':
+        return (
+          <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15h18M3 12h18M3 9h18" />
+          </svg>
+        );
+
+      // Mặc định (nếu API trả về cái gì đó lạ)
       default:
         return (
           <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
         );
     }
