@@ -81,7 +81,6 @@ export default function Header() {
     return () => clearInterval(timer);
   }, []);
   const navLinkStyle = "relative py-1 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-blue-600 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left transition-colors";
-
   if (!mounted) return <div className="h-20" />;
 
   const handleSearch = (e: React.FormEvent) => {
@@ -123,6 +122,20 @@ export default function Header() {
           </span>
         </Link>
 
+        {/* 1. LOGO, TÊN & THỜI TIẾT (BÊN TRÁI) */}
+        <div className="flex items-center gap-4 flex-shrink-0">
+          <Link href="/" className="flex items-center gap-2 group">
+            <img 
+              src="/logo.png" 
+              alt="Logo" 
+              className={`h-9 w-auto transition-all duration-500 ${
+                theme === 'dark' ? 'invert brightness-0' : 'brightness-0'
+              }`} 
+            />
+            <span className="text-xl font-bold text-slate-900 dark:text-white transition-colors">
+              AnyThink
+            </span>
+          </Link>
         
         {/* KHỐI THÔNG TIN TỰ ĐỘNG */}
         <div className="hidden lg:flex items-center gap-3 pl-4 border-l border-slate-300/30 dark:border-slate-700/30">
