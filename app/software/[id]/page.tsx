@@ -1,4 +1,4 @@
-import { allItems } from '@/app/data';
+import { allItems } from '../../data';
 import { notFound } from 'next/navigation';
 import type { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
