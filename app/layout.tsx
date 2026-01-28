@@ -12,10 +12,18 @@ export const metadata: Metadata = {
   description: 'Chia sẻ phần mềm, game, tài liệu và kiến thức công nghệ chất lượng cao.',
   
   // Cấu hình Icon (Favicon)
-  icons: {
-    icon: '/logo.png',        // Đường dẫn ảnh trong thư mục public
-    shortcut: '/logo.png',    // Icon cho shortcut
-    apple: '/logo.png',       // Icon cho Apple devices
+icons: {
+    icon: [
+      { url: '/logo.png' },
+      // Nếu bạn có file ảnh kích thước nhỏ hơn, có thể khai báo thêm (không bắt buộc)
+      // { url: '/icon-16x16.png', sizes: '16x16', type: 'image/png' },
+      // { url: '/icon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    shortcut: '/logo.png',
+    apple: [
+      // Icon cho iPhone/iPad nên là hình vuông, kích thước khoảng 180x180
+      { url: '/logo.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
   
   // Các thông tin khác (SEO)
