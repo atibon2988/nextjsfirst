@@ -123,20 +123,6 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* 1. LOGO, TÊN & THỜI TIẾT (BÊN TRÁI) */}
-        <div className="flex items-center gap-4 flex-shrink-0">
-          <Link href="/" className="flex items-center gap-2 group">
-            <img 
-              src="/logo.png" 
-              alt="Logo" 
-              className={`h-9 w-auto transition-all duration-500 ${
-                theme === 'dark' ? 'invert brightness-0' : 'brightness-0'
-              }`} 
-            />
-            <span className="text-xl font-bold text-slate-900 dark:text-white transition-colors">
-              AnyThink
-            </span>
-          </Link>
         
         {/* KHỐI THÔNG TIN TỰ ĐỘNG */}
         <div className="hidden lg:flex items-center gap-3 pl-4 border-l border-slate-300/30 dark:border-slate-700/30">
