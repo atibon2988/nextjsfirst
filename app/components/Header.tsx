@@ -15,18 +15,15 @@ export default function Header() {
   const { theme, setTheme } = useTheme();
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
 
+  // 1. STATE & LOGIC THỜI TIẾT
+  const [currentTime, setCurrentTime] = useState("");
+  const [weather, setWeather] = useState({ temp: "25", city: "Hà Nội", condition: "Clouds" });
+
   useEffect(() => {
-    // Load lịch sử từ máy người dùng khi mở web
+    // Load lịch sử từ máy người dùng
     const saved = localStorage.getItem('search_history');
     if (saved) setSearchHistory(JSON.parse(saved));
   }, []);
-
-  const saveToHistory = (query: string) => {
-    const newHistory = [query, ...searchHistory.filter(h => h !== query)].slice(0, 5);
-    setSearchHistory(newHistory);
-    localStorage.setItem('search_history', JSON.stringify(newHistory));
-  };
-
 
   useEffect(() => {
     setMounted(true);
@@ -50,12 +47,6 @@ export default function Header() {
     setIsMenuOpen(false);
   }, [pathname]);
 
-
-  // 1. STATE MỚI: Thêm condition để lưu trạng thái nắng/mưa
-  // Đặt mặc định là 25 độ/Clouds để luôn hiển thị thử nghiệm
-  const [currentTime, setCurrentTime] = useState("");
-  const [weather, setWeather] = useState({ temp: "25", city: "Hà Nội", condition: "Clouds" });
-
   // 2. LOGIC FETCH API & ĐỒNG HỒ
   useEffect(() => {
     const updateTime = () => {
@@ -68,16 +59,20 @@ export default function Header() {
     // Hàm lấy thời tiết
     const fetchWeather = async () => {
       try {
-        // Thay YOUR_API_KEY bằng key của bạn. Nếu chưa có, nó sẽ giữ giá trị mặc định "25 độ"
+        // --- QUAN TRỌNG: Hãy điền API Key của bạn vào đây ---
         const API_KEY = "YOUR_OPENWEATHER_API_KEY"; 
+        
+        // Nếu chưa có key, code sẽ dùng giá trị mặc định (25 độ, Mây)
+        if (API_KEY === "YOUR_OPENWEATHER_API_KEY") return;
+
         const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Hanoi&units=metric&appid=${API_KEY}`);
         
         if (res.ok) {
           const data = await res.json();
           setWeather({
             temp: Math.round(data.main.temp).toString(),
-            city: "Hà Nội", // Hoặc data.name nếu muốn tên tiếng Anh
-            condition: data.weather[0].main // Lấy trạng thái (Clear, Rain, Clouds...)
+            city: "Hà Nội", 
+            condition: data.weather[0].main 
           });
         }
       } catch (error) {
@@ -89,23 +84,24 @@ export default function Header() {
     return () => clearInterval(timer);
   }, []);
 
-  // 3. HÀM CHỌN ICON DỰA TRÊN TRẠNG THÁI
+  // 3. HÀM CHỌN ICON
   const getWeatherIcon = (condition: string) => {
     switch (condition) {
-      case 'Clear': // Trời nắng
+      case 'Clear': // Nắng
         return (
           <svg className="w-5 h-5 text-yellow-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
           </svg>
         );
-      case 'Rain': // Trời mưa
+      case 'Rain': // Mưa
       case 'Drizzle':
+      case 'Thunderstorm':
         return (
           <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         );
-      case 'Clouds': // Có mây
+      case 'Clouds': // Mây
       default:
         return (
           <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -115,26 +111,21 @@ export default function Header() {
     }
   };
 
-
-  const navLinkStyle = "relative py-1 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-blue-600 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left transition-colors";
-  if (!mounted) return <div className="h-20" />;
-
   const handleSearch = (e: React.FormEvent) => {
-      e.preventDefault();
+    e.preventDefault();
     if (searchQuery.trim()) {
-      // Lưu lịch sử (không lưu trùng, tối đa 5 mục gần nhất)
-      const newHistory = [
-        searchQuery, 
-        ...searchHistory.filter(h => h !== searchQuery)
-      ].slice(0, 5);
-      
+      const newHistory = [searchQuery, ...searchHistory.filter(h => h !== searchQuery)].slice(0, 5);
       setSearchHistory(newHistory);
       localStorage.setItem('search_history', JSON.stringify(newHistory));
-      
       window.location.href = `/?search=${encodeURIComponent(searchQuery)}`;
     }
   };
+  
+  const saveToHistory = (query: string) => { /* Hàm này bạn đã có logic trong handleSearch nên có thể bỏ qua nếu muốn gọn */ };
 
+  const navLinkStyle = "relative py-1 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-blue-600 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left transition-colors";
+  
+  if (!mounted) return <div className="h-20" />;
 
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -142,42 +133,36 @@ export default function Header() {
         ? 'bg-white/10 dark:bg-slate-900/10 backdrop-blur-md py-2 shadow-sm border-b border-white/5' 
         : 'bg-white/5 dark:bg-slate-900/5 backdrop-blur-sm py-4'
     }`}>
+      {/* --- PHẦN BẠN BỊ THIẾU: Thẻ DIV bao bọc nội dung (Container) --- */}
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center gap-4">
         
-        {/* 1. LOGO & TÊN (NGOÀI CÙNG BÊN TRÁI) */}
-        <Link href="/" className="flex items-center gap-2 flex-shrink-0 group">
-          <img 
-            src="/logo.png" 
-            alt="Logo" 
-            className={`h-20 w-auto transition-all duration-500 ${
-              theme === 'dark' ? 'invert brightness-0' : 'brightness-0'
-            }`} 
-          />
-          <span className="text-xl font-bold text-slate-900 dark:text-white transition-colors">
-            AnyThink
-          </span>
-        </Link>
-
-        {/* 1. LOGO, TÊN & THỜI TIẾT (BÊN TRÁI) */}
+        {/* 1. KHỐI LOGO & THỜI TIẾT */}
         <div className="flex items-center gap-4 flex-shrink-0">
+          <Link href="/" className="flex items-center gap-2 group">
+            <img 
+              src="/logo.png" 
+              alt="Logo" 
+              className={`h-9 w-auto transition-all duration-500 ${theme === 'dark' ? 'invert brightness-200' : 'brightness-0'}`} 
+            />
+            <span className="text-xl font-bold text-slate-900 dark:text-white">AnyThink</span>
+          </Link>
 
-        
-        {/* KHỐI THÔNG TIN TỰ ĐỘNG */}
-        <div className="hidden lg:flex items-center gap-3 pl-4 border-l border-slate-300/30 dark:border-slate-700/30">
-          <div className="flex flex-col text-[10px] font-bold uppercase tracking-tighter text-slate-500">
-            <span className="text-slate-900 dark:text-slate-200">{weather.city}</span>
-            <span className="font-medium opacity-70">{currentTime}</span>
-          </div>
-          <div className="text-lg font-light text-blue-500 dark:text-blue-400">
-            {weather.temp !== "--" ? `${weather.temp}°` : "--°"}
+          <div className="hidden lg:flex items-center gap-3 pl-4 border-l border-slate-300/30 dark:border-slate-700/30 h-8">
+            <div className="flex flex-col justify-center text-[10px] font-bold uppercase tracking-tighter text-slate-500 leading-tight">
+              <span className="text-slate-900 dark:text-slate-200">{weather.city}</span>
+              <span className="font-medium opacity-70">{currentTime}</span>
+            </div>
+            <div className="flex flex-col items-center justify-center w-8">
+              <div className="mb-[-2px]">{getWeatherIcon(weather.condition)}</div>
+              <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300">{weather.temp}°</span>
+            </div>
           </div>
         </div>
-      </div>
 
         {/* 2. KHỐI CĂN PHẢI */}
         <div className="flex items-center gap-6 flex-1 justify-end">
           
-        {/* TÌM KIẾM CÓ LỊCH SỬ */}
+          {/* TÌM KIẾM */}
           <form onSubmit={handleSearch} className="relative hidden md:block w-full max-w-[200px] lg:max-w-[250px] group/search">
             <input
               type="text"
@@ -190,7 +175,7 @@ export default function Header() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             </button>
             
-            {/* TOOLTIP HIỆN LỊCH SỬ KHI RÊ CHUỘT VÀO Ô TÌM KIẾM */}
+            {/* TOOLTIP LỊCH SỬ */}
             {searchHistory.length > 0 && (
               <div className="absolute top-full left-0 mt-2 w-full bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 py-2 opacity-0 invisible group-focus-within/search:opacity-100 group-focus-within/search:visible transition-all z-50">
                 <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase">Gần đây</div>
@@ -207,23 +192,17 @@ export default function Header() {
             )}
           </form>
 
-          {/* TRANG CHỦ */}
+          {/* MENU LINKS */}
           <Link href="/" className={`text-sm font-medium text-slate-700 dark:text-slate-200 ${navLinkStyle} hidden sm:block`}>
             Trang chủ
           </Link>
 
           {/* DANH MỤC */}
           <div className="relative" ref={menuRef}>
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex items-center gap-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 transition"
-            >
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="flex items-center gap-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600 transition">
               <span>Danh mục</span>
-              <svg className={`w-4 h-4 transition-transform ${isMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </svg>
+              <svg className={`w-4 h-4 transition-transform ${isMenuOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
             </button>
-            
             {isMenuOpen && (
               <div className="absolute right-0 mt-3 w-56 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 py-3 z-50">
                 <Link href="/?cat=Tin tức" className="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200">📰 Tin tức</Link>
@@ -236,24 +215,12 @@ export default function Header() {
             )}
           </div>
 
-          {/* Donate */}
-          <Link href="/donate" className={`text-sm font-medium text-slate-700 dark:text-slate-200 ${navLinkStyle} hidden sm:block`}>
-            Donate
-          </Link>
-          {/* Góp ý */}
-          <Link href="/feedback" className={`text-sm font-medium text-slate-700 dark:text-slate-200 ${navLinkStyle} hidden sm:block`}>
-            Góp ý
-          </Link>
-          {/* GIỚI THIỆU */}
-          <Link href="/about" className={`text-sm font-medium text-slate-700 dark:text-slate-200 ${navLinkStyle} hidden sm:block`}>
-            Giới thiệu
-          </Link>
+          <Link href="/donate" className={`text-sm font-medium text-slate-700 dark:text-slate-200 ${navLinkStyle} hidden sm:block`}>Donate</Link>
+          <Link href="/feedback" className={`text-sm font-medium text-slate-700 dark:text-slate-200 ${navLinkStyle} hidden sm:block`}>Góp ý</Link>
+          <Link href="/about" className={`text-sm font-medium text-slate-700 dark:text-slate-200 ${navLinkStyle} hidden sm:block`}>Giới thiệu</Link>
 
-          {/* NÚT SÁNG TỐI */}
-          <button
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="p-2 rounded-full text-slate-700 dark:text-yellow-400 hover:bg-white/10 transition-all"
-          >
+          {/* DARK MODE */}
+          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="p-2 rounded-full text-slate-700 dark:text-yellow-400 hover:bg-white/10 transition-all">
             {theme === 'dark' ? (
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
             ) : (
@@ -261,7 +228,9 @@ export default function Header() {
             )}
           </button>
         </div>
-      </div>
+
+      {/* --- ĐÂY LÀ THẺ ĐÓNG CỦA CONTAINER MÀ BẠN CÓ SẴN --- */}
+      </div> 
     </header>
   );
 }
