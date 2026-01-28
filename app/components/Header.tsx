@@ -148,13 +148,26 @@ export default function Header() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-3 pl-4 border-l border-slate-300/30 dark:border-slate-700/30 h-8">
-            <div className="flex flex-col justify-center text-[10px] font-bold uppercase tracking-tighter text-slate-500 leading-tight">
-              <span className="text-slate-900 dark:text-slate-200">{weather.city}</span>
-              <span className="font-medium opacity-70">{currentTime}</span>
-            </div>
-            <div className="flex flex-col items-center justify-center w-8">
-              <div className="mb-[-0px]">{getWeatherIcon(weather.condition)}</div>
-              <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300">{weather.temp}°</span>
+            <div className="flex flex-col justify-center text-[10px] font-bold uppercase tracking-tighter leading-tight">
+    
+              {/* HÀNG TRÊN */}
+              <div className="flex items-center gap-2">
+                <span className="text-slate-900 dark:text-slate-200">
+                  {weather.city}
+                </span>
+                <div className="flex items-center">
+                  {getWeatherIcon(weather.condition)}
+                </div>
+              </div>
+
+              {/* HÀNG DƯỚI */}
+              <div className="flex items-center gap-2 font-medium opacity-70 text-slate-500">
+                <span>{currentTime}</span>
+                <span className="text-slate-700 dark:text-slate-300">
+                  {weather.temp}°
+                </span>
+              </div>
+
             </div>
           </div>
         </div>
