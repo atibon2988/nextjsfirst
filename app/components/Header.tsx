@@ -153,7 +153,7 @@ export default function Header() {
               <span className="font-medium opacity-70">{currentTime}</span>
             </div>
             <div className="flex flex-col items-center justify-center w-8">
-              <div className="mb-[-2px]">{getWeatherIcon(weather.condition)}</div>
+              <div className="mb-[-0px]">{getWeatherIcon(weather.condition)}</div>
               <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300">{weather.temp}°</span>
             </div>
           </div>
