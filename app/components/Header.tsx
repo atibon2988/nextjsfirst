@@ -51,11 +51,13 @@ export default function Header() {
   }, [pathname]);
 
 
+  // 1. STATE MỚI: Thêm condition để lưu trạng thái nắng/mưa
+  // Đặt mặc định là 25 độ/Clouds để luôn hiển thị thử nghiệm
   const [currentTime, setCurrentTime] = useState("");
-  const [weather, setWeather] = useState({ temp: "--", city: "Hà Nội" });
+  const [weather, setWeather] = useState({ temp: "25", city: "Hà Nội", condition: "Clouds" });
 
+  // 2. LOGIC FETCH API & ĐỒNG HỒ
   useEffect(() => {
-    // 1. Cập nhật đồng hồ mỗi phút
     const updateTime = () => {
       const now = new Date();
       setCurrentTime(now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }));
@@ -63,23 +65,57 @@ export default function Header() {
     updateTime();
     const timer = setInterval(updateTime, 60000);
 
-    // 2. Lấy thời tiết thực tế (Dùng OpenWeatherMap API)
-    const API_KEY = "YOUR_OPENWEATHER_API_KEY"; // Thay mã của bạn vào đây
+    // Hàm lấy thời tiết
     const fetchWeather = async () => {
       try {
+        // Thay YOUR_API_KEY bằng key của bạn. Nếu chưa có, nó sẽ giữ giá trị mặc định "25 độ"
+        const API_KEY = "YOUR_OPENWEATHER_API_KEY"; 
         const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Hanoi&units=metric&appid=${API_KEY}`);
-        const data = await res.json();
-        if (data.main) {
-          setWeather({ temp: Math.round(data.main.temp).toString(), city: "Hà Nội" });
+        
+        if (res.ok) {
+          const data = await res.json();
+          setWeather({
+            temp: Math.round(data.main.temp).toString(),
+            city: "Hà Nội", // Hoặc data.name nếu muốn tên tiếng Anh
+            condition: data.weather[0].main // Lấy trạng thái (Clear, Rain, Clouds...)
+          });
         }
       } catch (error) {
-        console.error("Lỗi lấy thời tiết:", error);
+        console.error("Lỗi API thời tiết, dùng dữ liệu mặc định");
       }
     };
 
     fetchWeather();
     return () => clearInterval(timer);
   }, []);
+
+  // 3. HÀM CHỌN ICON DỰA TRÊN TRẠNG THÁI
+  const getWeatherIcon = (condition: string) => {
+    switch (condition) {
+      case 'Clear': // Trời nắng
+        return (
+          <svg className="w-5 h-5 text-yellow-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+          </svg>
+        );
+      case 'Rain': // Trời mưa
+      case 'Drizzle':
+        return (
+          <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        );
+      case 'Clouds': // Có mây
+      default:
+        return (
+          <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+          </svg>
+        );
+    }
+  };
+
+
   const navLinkStyle = "relative py-1 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-blue-600 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left transition-colors";
   if (!mounted) return <div className="h-20" />;
 
