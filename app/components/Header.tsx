@@ -146,7 +146,7 @@ export default function Header() {
             {/* Hàng 1: Thành phố và Icon */}
             <div className="flex items-center justify-between gap-2 text-slate-900 dark:text-slate-200 leading-none">
               <span>{weather.city}</span>
-              <div className="w-4 h-4 flex items-center justify-center">
+              <div className="w-4 h-4 flex items-center justify-center pb-1">
                   {getWeatherIcon(weather.condition)}
               </div>
             </div>
