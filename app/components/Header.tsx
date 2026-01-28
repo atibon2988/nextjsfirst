@@ -68,10 +68,7 @@ export default function Header() {
               AnyThink
             </span>
           </Link>
-          <nav className="hidden lg:flex gap-6 text-sm font-medium text-slate-700 dark:text-slate-200">
-            <Link href="/" className="hover:text-blue-600 transition">Trang chủ</Link>
-            <Link href="/about" className="hover:text-blue-600 transition">Giới thiệu</Link>
-          </nav>
+
         </div>
 
 
