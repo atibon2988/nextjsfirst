@@ -57,9 +57,9 @@ export default function Header() {
     const fetchWeather = async () => {
       try {
         // --- ĐIỀN API KEY CỦA BẠN VÀO ĐÂY ---
-        const API_KEY = "YOUR_OPENWEATHER_API_KEY"; 
+        const API_KEY = "35fcc90c65fd081e473121f079364511"; 
         
-        if (API_KEY === "YOUR_OPENWEATHER_API_KEY") return;
+        if (API_KEY === "35fcc90c65fd081e473121f079364511") return;
 
         const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Hanoi&units=metric&appid=${API_KEY}`);
         
