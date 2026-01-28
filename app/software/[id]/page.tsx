@@ -123,4 +123,45 @@ export default function SoftwareDetail({ params }: Props) {
 
               <div className="space-y-3 pt-6 border-t border-slate-200 dark:border-slate-700">
                 <div className="flex justify-between text-sm">
-                  <span className
+                  <span className="text-slate-500">Phiên bản:</span>
+                  <span className="font-medium text-slate-900 dark:text-white">v1.0.2</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-slate-500">Dung lượng:</span>
+                  <span className="font-medium text-slate-900 dark:text-white">150 MB</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-slate-500">Bản quyền:</span>
+                  <span className="text-green-600 font-bold uppercase text-xs bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded">
+                    Miễn phí
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Box Gợi ý */}
+            <div className="bg-white/40 dark:bg-slate-900/40 backdrop-blur-md rounded-3xl p-6 border border-slate-200 dark:border-slate-800">
+              <h3 className="text-sm font-bold text-slate-500 uppercase mb-4">Có thể bạn thích</h3>
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="flex gap-3 group cursor-pointer">
+                    <div className="w-16 h-12 bg-slate-200 dark:bg-slate-800 rounded-lg overflow-hidden">
+                       <img src={`https://picsum.photos/seed/${i + 10}/200/150`} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-2 group-hover:text-blue-500 transition">
+                        Phần mềm tiện ích số {i}
+                      </h4>
+                      <span className="text-xs text-slate-500">Video • 2 ngày trước</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
