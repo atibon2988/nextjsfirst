@@ -134,7 +134,7 @@ function FilteredView({ search, category }: { search: string, category: string }
 //        const matchesCategory = category ? item.category === category : true;
 //        return matchesSearch && matchesCategory;
 //    });
-    if (filteredItems.length === 0) {
+    if (results.length === 0) {
         return (
             <div className="text-center py-20">
                 <p className="text-gray-500 dark:text-gray-400 text-xl">Rất tiếc, không tìm thấy tài nguyên nào phù hợp với "{search}"</p>
@@ -148,7 +148,7 @@ function FilteredView({ search, category }: { search: string, category: string }
                 {category ? `Danh mục: ${category}` : `Tìm kiếm: "${search}"`}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredItems.map((item) => <ItemCard key={item.id} item={item} />)}
+                {results.map((item) => <ItemCard key={item.id} item={item} />)}
             </div>
         </div>
     );

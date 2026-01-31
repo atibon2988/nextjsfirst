@@ -330,36 +330,47 @@ const handleComment = async (e: React.FormEvent) => {
         </div>
 
         {/* --- CỘT PHẢI (SIDEBAR) --- */}
-        <div className="space-y-8">
-          {/* Download Box (Sticky cho Desktop) */}
-          {!isNews && (
-            <div className="sticky top-24 mt-9 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl hidden lg:block">
-              <h3 className="font-bold mb-4">Thông tin tải về</h3>
-              <a href={item.downloadUrl} className="w-full block text-center py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition mb-4">
-                Download Free
-              </a>
-              <p className="text-xs text-slate-500 text-center italic">🔒 An toàn & Đã quét virus</p>
-            </div>
-          )}
+        {/* --- CỘT PHẢI (SIDEBAR) --- */}
+<div className="lg:col-span-1 mt-9">
+  {/* Thẻ div bọc bên ngoài này sẽ giữ cả 2 trôi cùng nhau */}
+  <div className="sticky top-24 space-y-8">
+    
+    {/* 1. Download Box */}
+    {!isNews && (
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+        <h3 className="font-bold mb-4">Thông tin tải về</h3>
+        <a 
+          href={item.download_url} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="w-full block text-center py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition mb-4 shadow-lg shadow-blue-500/20"
+        >
+          Download Free
+        </a>
+        <p className="text-xs text-slate-500 text-center italic">🔒 An toàn & Đã quét virus</p>
+      </div>
+    )}
 
-          {/* BÀI VIẾT MỚI GỢI Ý */}
-          <div className="sticky top-24 mt-9 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800">
-            <h3 className="font-bold mb-6 text-blue-600">Mới cập nhật</h3>
-            <div className="space-y-6">
-              {recentItems.map(recent => (
-                <Link key={recent.id} href={`/software/${recent.id}`} className="flex gap-4 group">
-                  <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0">
-                    <img src={recent.imageUrl} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    <h4 className="text-sm font-bold line-clamp-2 group-hover:text-blue-600 transition">{recent.title}</h4>
-                    <span className="text-[10px] text-slate-400 mt-1 uppercase font-bold">{recent.category}</span>
-                  </div>
-                </Link>
-              ))}
+    {/* 2. Bài viết mới cập nhật */}
+    <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800">
+      <h3 className="font-bold mb-6 text-blue-600 uppercase text-xs tracking-wider">Mới cập nhật</h3>
+      <div className="space-y-6">
+        {recentItems.map((recent: any) => (
+          <Link key={recent.id} href={`/software/${recent.id}`} className="flex gap-4 group">
+            <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+              <img src={recent.image_url} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
             </div>
-          </div>
-        </div>
+            <div className="flex flex-col justify-center">
+              <h4 className="text-sm font-bold line-clamp-2 group-hover:text-blue-600 transition">{recent.title}</h4>
+              <span className="text-[10px] text-slate-400 mt-1 uppercase font-bold">{recent.category}</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+
+  </div> {/* Kết thúc Sticky Wrapper */}
+</div>
 
       </div>
     </div>
