@@ -2,7 +2,7 @@ import './globals.css';
 import Header from './components/Header';
 import { Providers } from './providers'; 
 import type { Metadata } from 'next'; // Import type Metadata
-
+import { Suspense } from 'react';
 // --- KHAI BÁO METADATA TẠI ĐÂY ---
 export const metadata: Metadata = {
   title: {
@@ -49,7 +49,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="vi" suppressHydrationWarning>
       <body className="bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
         <Providers>
-          <Header />
+					<Suspense fallback={<div className="h-16 w-full bg-slate-900/50 animate-pulse fixed top-0 z-50" />}>
+            <Header />
+          </Suspense>
           <main className="pt-24 md:pt-32 min-h-screen container mx-auto px-4">
             {children}
           </main>

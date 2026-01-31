@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useState, useEffect } from 'react';
-import { allItems } from './data';
 import { supabase } from "./lib/supabase";
 
 //const { data: posts } = await supabase.from('posts').select('*').order('created_at', { ascending: false });
