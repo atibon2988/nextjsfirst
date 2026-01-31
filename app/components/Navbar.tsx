@@ -1,6 +1,7 @@
 // app/components/Navbar.tsx
 "use client"; // Bắt buộc dòng này để dùng được tính năng bấm/đóng
 
+
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
