@@ -205,7 +205,7 @@ const handleComment = async (e: React.FormEvent) => {
             <div className="p-6 md:p-8">
               <h1 className="text-3xl font-bold mb-4">{item.title}</h1>
               <div className="flex gap-4 text-sm text-slate-500 mb-6 border-b pb-6 dark:border-slate-800">
-                <span>📅 {item.date}</span>
+                <span>📅 {new Date(item.created_at).toLocaleDateString('vi-VN')}</span>
                 <span>👁️ {dbStats.views.toLocaleString()} lượt xem</span>
               </div>
 
