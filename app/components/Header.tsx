@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { motion, useScroll } from "framer-motion";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -11,13 +12,14 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const menuRef = useRef<HTMLDivElement>(null);  
   const { theme, setTheme } = useTheme();
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
-
+  const { scrollYProgress } = useScroll();
   // 1. STATE & LOGIC THỜI TIẾT
   const [currentTime, setCurrentTime] = useState("");
-  const [weather, setWeather] = useState({ temp: "25", city: "Hà Nội", condition: "Clouds" });
+  const [weather, setWeather] = useState({ temp: "--", city: "Hà Nội", condition: "Clouds" });
 
   useEffect(() => {
     const saved = localStorage.getItem('search_history');
@@ -43,7 +45,7 @@ export default function Header() {
 
   useEffect(() => {
     setIsMenuOpen(false);
-  }, [pathname]);
+  }, [pathname, searchParams]);
 
   // 2. LOGIC FETCH API & ĐỒNG HỒ
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function Header() {
         // --- ĐIỀN API KEY CỦA BẠN VÀO ĐÂY ---
         const API_KEY = "35fcc90c65fd081e473121f079364511"; 
         
-        if (API_KEY === "35fcc90c65fd081e473121f079364511") return;
+//        if (API_KEY === "35fcc90c65fd081e473121f079364511") return;
 
         const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Hanoi&units=metric&appid=${API_KEY}`);
         
@@ -270,7 +272,11 @@ export default function Header() {
           </button>
         </div>
 
-      </div> 
+      </div>
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-[3px] bg-gray-400 origin-left z-[100]"
+        style={{ scaleX: scrollYProgress }}
+      />
     </header>
   );
 }

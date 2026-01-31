@@ -2,9 +2,12 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { allItems } from './data';
+import { supabase } from "./lib/supabase";
 
+//const { data: posts } = await supabase.from('posts').select('*').order('created_at', { ascending: false });
+// Sau đó dùng posts thay cho allItems
 const categories = ["Tin tức", "Game", "Video", "Ảnh", "Phần mềm", "Nhạc"];
 
 // --- ITEM CARD (Đã sửa lỗi ảnh và thêm Dark Mode) ---
@@ -18,32 +21,46 @@ function ItemCard({ item }: { item: any }) {
         }
     };
 
+    // [THÊM] Hàm định dạng ngày tháng để hiển thị đẹp hơn
+    const formatDate = (dateString: string) => {
+        if (!dateString) return "Mới cập nhật";
+        return new Date(dateString).toLocaleDateString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    };
+
     return (
         <Link href={`/software/${item.id}`} className="block h-full group">
-            {/* THÊM dark:bg-slate-800 dark:border-slate-700 ĐỂ ĐỔI MÀU NỀN CARD */}
             <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
                 
-                {/* PHẦN ẢNH: Dùng thẻ img thường để chắc chắn hiển thị */}
-                <div className="h-48 w-full relative overflow-hidden bg-gray-200 dark:bg-slate-700">
+                {/* PHẦN ẢNH: Đã khớp với cột image_url từ DB */}
+                <div className="h-48 w-full relative overflow-hidden bg-gray-200 dark:bg-slate-700 border-b dark:border-slate-700">
                     <img 
-                        src={item.imageUrl} 
+                        src={item.image_url} 
                         alt={item.title} 
-                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        loading="lazy" // Tối ưu tốc độ load
                     />
                     <div className="absolute top-2 left-2">
-                        <span className={`text-xs font-bold px-2 py-1 rounded shadow-sm ${getBadgeColor(item.category)}`}>
+                        <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded shadow-sm ${getBadgeColor(item.category)}`}>
                             {item.category}
                         </span>
                     </div>
                 </div>
 
-                {/* PHẦN NỘI DUNG: Thêm dark:text-white */}
-                <div className="p-4 flex-1 flex flex-col">
-                    <div className="text-gray-400 text-xs mb-2">📅 {item.date}</div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <div className="p-5 flex-1 flex flex-col">
+                    {/* [SỬA] Hiển thị created_at đã qua hàm format */}
+                    <div className="text-gray-400 dark:text-slate-500 text-[11px] mb-2 flex items-center gap-1">
+                        <span>📅</span> {formatDate(item.created_at)}
+                    </div>
+                    
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
                         {item.title}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                    
+                    <p className="text-sm text-gray-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
                         {item.description}
                     </p>
                 </div>
@@ -54,6 +71,18 @@ function ItemCard({ item }: { item: any }) {
 
 // --- LOGIC TRANG CHỦ GIỮ NGUYÊN ---
 function DefaultHomeView() {
+    const [dbPosts, setDbPosts] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            const { data } = await supabase
+                .from('posts')
+                .select('*')
+                .order('created_at', { ascending: false });
+            if (data) setDbPosts(data);
+        };
+        fetchPosts();
+    }, []);
     return (
         <div className="space-y-12">
             <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-lg mb-8">
@@ -61,7 +90,8 @@ function DefaultHomeView() {
                 <p className="opacity-90">Khám phá kho tàng phần mềm, game và tài liệu miễn phí.</p>
             </div>
             {categories.map((cat) => {
-                const items = allItems.filter(item => item.category === cat).slice(0, 2);
+                const items = dbPosts.filter(item => item.category === cat).slice(0, 4);
+                //const items = allItems.filter(item => item.category === cat).slice(0, 2);
                 if (items.length === 0) return null;
                 return (
                     <section key={cat}>
@@ -80,11 +110,30 @@ function DefaultHomeView() {
 }
 
 function FilteredView({ search, category }: { search: string, category: string }) {
-    const filteredItems = allItems.filter((item) => {
-        const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) || item.description.toLowerCase().includes(search.toLowerCase());
-        const matchesCategory = category ? item.category === category : true;
-        return matchesSearch && matchesCategory;
+    const [dbPosts, setDbPosts] = useState<any[]>([]);
+    useEffect(() => {
+        const fetchFiltered = async () => {
+            let query = supabase.from('posts').select('*');
+            
+            // Nếu có category, lọc ngay từ DB cho nhanh
+            if (category) query = query.eq('category', category);
+            
+            const { data } = await query.order('created_at', { ascending: false });
+            if (data) setDbPosts(data);
+        };
+        fetchFiltered();
+    }, [category]);
+
+    // Lọc theo search (client-side hoặc bạn có thể dùng .ilike() của Supabase)
+    const results = dbPosts.filter((item) => {
+        const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase());
+        return matchesSearch;
     });
+//    const filteredItems = allItems.filter((item) => {
+//        const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) || item.description.toLowerCase().includes(search.toLowerCase());
+//        const matchesCategory = category ? item.category === category : true;
+//        return matchesSearch && matchesCategory;
+//    });
     if (filteredItems.length === 0) {
         return (
             <div className="text-center py-20">

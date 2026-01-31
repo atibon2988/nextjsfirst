@@ -19,14 +19,26 @@ export const allItems: Item[] = [
   {
     id: '101',
     title: "Ra mắt Galaxy S25 Ultra: AI đỉnh cao",
-    imageUrl: "https://images.unsplash.com/photo-1610945415295-d96bf067153c?auto=format&fit=crop&w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1738830234395-a351829a1c7b?auto=format&fit=crop&w=800&q=80",
     description: "Samsung chính thức công bố siêu phẩm mới với chip Snapdragon 8 Gen 5.",
     category: "Tin tức",
     date: "2024-01-26",
     views: 1990,
     downloadUrl: "#",
-    detailContent: `Samsung vừa chính thức ra mắt Galaxy S25 Ultra với thiết kế titan mới và tích hợp sâu trí tuệ nhân tạo Galaxy AI.`
-  },
+    detailContent: `
+    <div class="prose dark:prose-invert max-w-none mb-10">
+    <div>Samsung vừa ch&iacute;nh thức ra mắt Galaxy S25 Ultra với thiết kế titan mới v&agrave; t&iacute;ch hợp s&acirc;u tr&iacute; tuệ nh&acirc;n tạo Galaxy AI.</div>
+    </div>
+    <div class="flex gap-4 pt-6 border-t dark:border-slate-800">&nbsp;</div>
+    <div>
+    <div class="my-6 aspect-video">
+      <iframe src="https://www.youtube.com/embed/KbvJhsuTmIE?si=Ry2miuO-v1iTEq9a" 
+              class="w-full h-full rounded-2xl shadow-lg" 
+              allowfullscreen></iframe>
+    </div>
+    <p>M&aacute;y nổi bật với camera 200MP, pin 5000mAh, v&agrave; c&aacute;c t&iacute;nh năng Galaxy AI n&acirc;ng cao. Gi&aacute; khởi điểm khoảng từ 33.990.000đ, phi&ecirc;n bản cao nhất l&ecirc;n tới 1TB.<span class="uJ19be notranslate" data-wiz-uids="qQIjYe_c,qQIjYe_d" data-processed="true"><span class="vKEkVd" data-animation-atomic="" data-wiz-attrbind="class=qQIjYe_b/TKHnVd" data-processed="true">&nbsp;</span></span></p>
+    `
+    },
   {
     id: '102',
     title: "Windows 12 lộ diện giao diện mới",
@@ -133,7 +145,7 @@ export const allItems: Item[] = [
   {
     id: '205',
     title: "GTA San Andreas: Remastered",
-    imageUrl: "https://images.unsplash.com/photo-1605901309584-818e25960b8f?auto=format&fit=crop&w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1616917831137-f2bf4977205e?auto=format&fit=crop&w=800&q=80",
     description: "Đồ họa 4K, Việt hóa 100% cốt truyện.",
     category: "Game",
     date: "2024-01-22",
@@ -237,8 +249,26 @@ export const allItems: Item[] = [
     date: "2024-01-23",
     views: 3000,
     downloadUrl: "#",
-    detailContent: `Hướng dẫn sử dụng Termux và Andronix để cài Ubuntu giao diện đồ họa lên điện thoại.
-    Chạy VS Code và trình duyệt Chromium ngay trên màn hình điện thoại.`
+    detailContent: `
+    <p>Đầu tiên, bạn cần chuẩn bị một chiếc điện thoại Android còn trống khoảng 5GB bộ nhớ.</p>
+    
+    <div class="my-6">
+      <img src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800" 
+           alt="Giao diện Termux" 
+           class="rounded-2xl w-full shadow-md" />
+      <p class="text-center text-sm text-slate-500 mt-2 italic">Giao diện dòng lệnh Termux sau khi cài đặt</p>
+    </div>
+
+    <p>Tiếp theo, hãy nhập các dòng lệnh sau để cập nhật hệ thống...</p>
+
+    <div class="my-6 aspect-video">
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+              class="w-full h-full rounded-2xl shadow-lg" 
+              allowfullscreen></iframe>
+    </div>
+
+    <p>Sau khi chạy xong video hướng dẫn trên, bạn sẽ có một hệ điều hành Linux hoàn chỉnh.</p>
+  `
   },
   {
     id: '305',
@@ -315,7 +345,7 @@ export const allItems: Item[] = [
   {
     id: '405',
     title: "Siêu Xe & Tốc Độ",
-    imageUrl: "https://images.unsplash.com/photo-1503376763036-066120622c74?auto=format&fit=crop&w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1617814086906-d847a8bc6fca?auto=format&fit=crop&w=800&q=80",
     description: "Lamborghini, Ferrari, Bugatti độ phân giải 8K.",
     category: "Ảnh",
     date: "2024-01-22",
@@ -358,9 +388,25 @@ export const allItems: Item[] = [
     date: "2024-01-26",
     views: 2300,
     downloadUrl: "#",
-    detailContent: `Phiên bản Code Server chạy trên nền trình duyệt.
-    Hỗ trợ cài Extension, Terminal, Git đầy đủ như trên máy tính.
-    Yêu cầu cài đặt Termux trước khi sử dụng.`
+    detailContent: `
+    <p>Dưới đây là các bước chi tiết để cài đặt...</p>
+    
+    <h3 class="text-xl font-bold my-4">Bước 1: Tải file</h3>
+    <p>Truy cập trang chủ và chọn phiên bản phù hợp.</p>
+
+    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800" 
+         class="rounded-2xl my-6 shadow-lg border border-slate-200" />
+
+    <h3 class="text-xl font-bold my-4">Bước 2: Xem video hướng dẫn</h3>
+    
+    <div class="aspect-video my-6">
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+              class="w-full h-full rounded-2xl" 
+              allowfullscreen></iframe>
+    </div>
+
+    <p>Chúc các bạn thành công!</p>
+  `
   },
   {
     id: '502',
