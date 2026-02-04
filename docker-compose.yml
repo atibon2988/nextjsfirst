@@ -1,6 +1,6 @@
 services:
   web:
-    image: atibon2988/anythink:v1
+    image: atibon2988/anythink:lastest
     build:
       context: .
       args: 
