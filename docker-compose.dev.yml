@@ -1,0 +1,12 @@
+services:
+  web:
+    build: . # Không cần args phức tạp vì dev mode chạy runtime
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    env_file:
+      - .env.local
+    command: npm run dev # Quan trọng nhất: chạy chế độ dev

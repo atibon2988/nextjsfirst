@@ -1,0 +1,14 @@
+services:
+  web:
+    image: atibon2988/anythink:v1
+    build:
+      context: .
+      args: 
+        # Sử dụng biến từ file .env.local thay vì dán cứng giá trị
+        - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+        - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+    ports:
+      - "3001:3000"
+        #    env_file:
+        # - .env.local
+    restart: always
