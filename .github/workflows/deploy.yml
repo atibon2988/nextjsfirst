@@ -1,25 +1,32 @@
-name: Test Secrets (Debug)
+name: CI/CD Deploy to Docker Hub
 
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
 
 jobs:
-  check-secrets:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
-      - name: Kiểm tra biến Secret
-        run: |
-          echo "--- BẮT ĐẦU KIỂM TRA ---"
-          
-          if [ -z "${{ secrets.DOCKERHUB_USERNAME }}" ]; then
-            echo "❌ LỖI: DOCKERHUB_USERNAME đang bị RỖNG (GitHub không tìm thấy)."
-          else
-            echo "✅ OK: DOCKERHUB_USERNAME đã nhận (Giá trị đã được che)."
-          fi
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-          if [ -z "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
-            echo "❌ LỖI: DOCKERHUB_TOKEN đang bị RỖNG."
-          else
-            echo "✅ OK: DOCKERHUB_TOKEN đã nhận."
-          fi
-          
-          echo "--- KẾT THÚC KIỂM TRA ---"
+      # Đăng nhập Docker Hub (Lỗi cũ nằm ở đoạn này do sai thụt lề)
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Build và đẩy lên
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # Thay tên chính xác của bạn vào đây
+          tags: atibon2988/anythink:latest
+          # Truyền biến Supabase (nhớ là bạn đã add 2 secret này chưa?)
+          build-args: |
+            NEXT_PUBLIC_SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+            NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
