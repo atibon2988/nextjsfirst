@@ -33,9 +33,9 @@ export default function Header() {
       
       const { data } = await supabase
         .from('posts')
-        .select('id, title, image_url, category')
+        .select('id, title, image_url, description, category, detail_content')
         // SỬA Ở ĐÂY: Tìm trong Title HOẶC Content
-        .or(`title.ilike.%${cleanQuery}%,content.ilike.%${cleanQuery}%`) 
+        .or(`title.ilike.%${cleanQuery}%,detail_content.ilike.%${cleanQuery}%,description.ilike.%${cleanQuery}%`) 
         .limit(5);
 
       setSuggestions(data || []);
