@@ -5,8 +5,12 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { motion, useScroll } from "framer-motion";
+import { supabase } from "../lib/supabase";
+
 
 export default function Header() {
+  const [suggestions, setSuggestions] = useState<any[]>([]); // Lưu kết quả từ Supabase
+  const [isSearching, setIsSearching] = useState(false);     // Hiệu ứng đang tìm
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,6 +25,25 @@ export default function Header() {
   const [currentTime, setCurrentTime] = useState("");
   const [weather, setWeather] = useState({ temp: "--", city: "Hà Nội", condition: "Clouds" });
 
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      if (searchQuery.trim().length > 1) {
+        setIsSearching(true);
+        const { data } = await supabase
+          .from('posts')
+          .select('id, title, image_url, category')
+          .ilike('title', `%${searchQuery}%`)
+          .limit(5); // Chỉ lấy 5 kết quả nhanh nhất
+        setSuggestions(data || []);
+        setIsSearching(false);
+      } else {
+        setSuggestions([]);
+      }
+    }, 300); // Đợi người dùng ngừng gõ 300ms
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery]);
+  
   useEffect(() => {
     const saved = localStorage.getItem('search_history');
     if (saved) setSearchHistory(JSON.parse(saved));
@@ -219,21 +242,53 @@ export default function Header() {
               className="w-full bg-white/5 dark:bg-black/20 border border-slate-300/20 dark:border-slate-700/20 backdrop-blur-sm rounded-full py-1.5 pl-9 pr-4 text-sm text-slate-900 dark:text-white outline-none focus:bg-white/10 transition-all"
             />
             <button type="submit" className="absolute left-3 top-2 text-slate-500">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              {isSearching ? (
+                <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              )}
             </button>
             
-            {searchHistory.length > 0 && (
-              <div className="absolute top-full left-0 mt-2 w-full bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 py-2 opacity-0 invisible group-focus-within/search:opacity-100 group-focus-within/search:visible transition-all z-50">
-                <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase">Gần đây</div>
-                {searchHistory.map((h, i) => (
-                  <button 
-                    key={i} 
-                    onClick={() => window.location.href = `/?search=${encodeURIComponent(h)}`}
-                    className="w-full text-left px-3 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 transition"
-                  >
-                    🕒 {h}
-                  </button>
-                ))}
+            {/* HIỂN THỊ KẾT QUẢ GỢI Ý (SMART SEARCH) */}
+            {(suggestions.length > 0 || (searchHistory.length > 0 && !searchQuery)) && (
+              <div className="absolute top-full left-0 mt-2 w-[300px] lg:w-[350px] bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700 py-2 opacity-0 invisible group-focus-within/search:opacity-100 group-focus-within/search:visible transition-all z-[100]">
+                
+                {/* Nếu có chữ trong ô search -> Hiện kết quả từ Database */}
+                {searchQuery.length > 1 ? (
+                  <>
+                    <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase border-b dark:border-slate-700 mb-1">Kết quả tìm kiếm</div>
+                    {suggestions.map((item) => (
+                      <Link 
+                        key={item.id} 
+                        href={`/software/${item.id}`}
+                        className="flex items-center gap-3 px-3 py-2 hover:bg-blue-50 dark:hover:bg-slate-700 transition"
+                      >
+                        <img src={item.image_url} className="w-10 h-10 rounded-lg object-cover" />
+                        <div className="flex-1">
+                          <p className="text-xs font-bold line-clamp-1 dark:text-white">{item.title}</p>
+                          <p className="text-[9px] text-blue-500 font-bold uppercase">{item.category}</p>
+                        </div>
+                      </Link>
+                    ))}
+                  </>
+                ) : (
+                  /* Nếu ô search trống -> Hiện lịch sử như cũ */
+                  <>
+                    <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase">Gần đây</div>
+                    {searchHistory.map((h, i) => (
+                      <button 
+                        key={i} 
+                        type="button"
+                        onClick={() => window.location.href = `/?search=${encodeURIComponent(h)}`}
+                        className="w-full text-left px-3 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 transition"
+                      >
+                        🕒 {h}
+                      </button>
+                    ))}
+                  </>
+                )}
               </div>
             )}
           </form>
