@@ -110,63 +110,89 @@ function DefaultHomeView() {
 
 function FilteredView({ search, category }: { search: string, category: string }) {
     const [dbPosts, setDbPosts] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true); // Thêm trạng thái loading
+
     useEffect(() => {
         const fetchFiltered = async () => {
+            setIsLoading(true);
             let query = supabase.from('posts').select('*');
             
-            // Nếu có category, lọc ngay từ DB cho nhanh
-            if (category) query = query.eq('category', category);
+            // 1. Lọc theo Category (Server-side)
+            if (category) {
+                query = query.eq('category', category);
+            }
             
-            const { data } = await query.order('created_at', { ascending: false });
-            if (data) setDbPosts(data);
+            // 2. Lọc theo Search (Server-side) - Tìm cả tiêu đề và nội dung chi tiết
+            if (search) {
+                // Chú ý: detail_content phải khớp với tên cột trong Supabase của bạn
+                query = query.or(`title.ilike.%${search}%,detail_content.ilike.%${search}%,description.ilike.%${search}%`);
+            }
+            
+            const { data, error } = await query.order('created_at', { ascending: false });
+            
+            if (error) {
+                console.error("Lỗi fetch:", error.message);
+            } else {
+                setDbPosts(data || []);
+            }
+            setIsLoading(false);
         };
-        fetchFiltered();
-    }, [category]);
 
-    // Lọc theo search (client-side hoặc bạn có thể dùng .ilike() của Supabase)
-    const results = dbPosts.filter((item) => {
-        const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase());
-        return matchesSearch;
-    });
-//    const filteredItems = allItems.filter((item) => {
-//        const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) || item.description.toLowerCase().includes(search.toLowerCase());
-//        const matchesCategory = category ? item.category === category : true;
-//        return matchesSearch && matchesCategory;
-//    });
-    if (results.length === 0) {
+        fetchFiltered();
+    }, [category, search]); // ĐÃ THÊM 'search' vào đây để kích hoạt fetch lại khi gõ enter
+
+    if (isLoading) {
         return (
             <div className="text-center py-20">
-                <p className="text-gray-500 dark:text-gray-400 text-xl">Rất tiếc, không tìm thấy tài nguyên nào phù hợp với "{search}"</p>
-                <Link href="/" className="text-blue-600 mt-4 inline-block">Quay lại trang chủ</Link>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
+                <p className="mt-4 text-gray-500">Đang tìm kiếm tài nguyên...</p>
             </div>
         );
     }
+
+    // Giờ kết quả chính là dbPosts luôn, không cần .filter() ở client nữa
+    if (dbPosts.length === 0) {
+        return (
+            <div className="text-center py-20">
+                <p className="text-gray-500 dark:text-gray-400 text-xl font-medium">
+                    Rất tiếc, không tìm thấy tài nguyên nào phù hợp với "{search || category}"
+                </p>
+                <Link href="/" className="text-blue-600 mt-4 inline-block hover:underline">
+                    Quay lại trang chủ
+                </Link>
+            </div>
+        );
+    }
+
     return (
-        <div>
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
-                {category ? `Danh mục: ${category}` : `Tìm kiếm: "${search}"`}
+        <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-8 flex items-center gap-2">
+                <span className="w-2 h-8 bg-blue-600 rounded-full"></span>
+                {category ? `Danh mục: ${category}` : `Kết quả tìm kiếm cho: "${search}"`}
+                <span className="text-sm font-normal text-gray-400 ml-2">({dbPosts.length})</span>
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {results.map((item) => <ItemCard key={item.id} item={item} />)}
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {dbPosts.map((item) => (
+                    <ItemCard key={item.id} item={item} />
+                ))}
             </div>
         </div>
     );
 }
-
 function MainContent() {
     const searchParams = useSearchParams();
     
-    // Header gửi ?search=... nên ta giữ nguyên
-    const search = searchParams.get('search');
+    // Lấy giá trị và trim để loại bỏ khoảng trắng dư thừa
+    const search = searchParams.get('search')?.trim() || "";
+    const category = searchParams.get('category') || searchParams.get('cat') || "";
     
-    // Header gửi ?cat=... (ở bản Header trước) hoặc ?category=... 
-    // Chúng ta sẽ kiểm tra cả hai để chắc chắn không sót
-    const category = searchParams.get('category') || searchParams.get('cat');
-    
+    // Nếu CÓ từ khóa tìm kiếm HOẶC CÓ danh mục thì mới vào FilteredView
     if (search || category) {
-        return <FilteredView search={search || ""} category={category || ""} />;
+        return <FilteredView search={search} category={category} />;
     }
     
+    // Ngược lại hiện trang chủ mặc định
     return <DefaultHomeView />;
 }
 
