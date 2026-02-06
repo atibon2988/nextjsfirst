@@ -26,23 +26,27 @@ export default function Header() {
   const [weather, setWeather] = useState({ temp: "--", city: "Hà Nội", condition: "Clouds" });
 
   useEffect(() => {
-    const delayDebounceFn = setTimeout(async () => {
-      if (searchQuery.trim().length > 1) {
-        setIsSearching(true);
-        const { data } = await supabase
-          .from('posts')
-          .select('id, title, image_url, category')
-          .ilike('title', `%${searchQuery}%`)
-          .limit(5); // Chỉ lấy 5 kết quả nhanh nhất
-        setSuggestions(data || []);
-        setIsSearching(false);
-      } else {
-        setSuggestions([]);
-      }
-    }, 300); // Đợi người dùng ngừng gõ 300ms
+  const delayDebounceFn = setTimeout(async () => {
+    const cleanQuery = searchQuery.trim();
+    if (cleanQuery.length > 1) {
+      setIsSearching(true);
+      
+      const { data } = await supabase
+        .from('posts')
+        .select('id, title, image_url, category')
+        // SỬA Ở ĐÂY: Tìm trong Title HOẶC Content
+        .or(`title.ilike.%${cleanQuery}%,content.ilike.%${cleanQuery}%`) 
+        .limit(5);
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchQuery]);
+      setSuggestions(data || []);
+      setIsSearching(false);
+    } else {
+      setSuggestions([]);
+    }
+  }, 300);
+
+  return () => clearTimeout(delayDebounceFn);
+}, [searchQuery]);
   
   useEffect(() => {
     const saved = localStorage.getItem('search_history');
