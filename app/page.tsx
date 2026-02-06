@@ -125,9 +125,11 @@ function FilteredView({ search, category }: { search: string, category: string }
             // 2. Lọc theo Search (Server-side) - Tìm cả tiêu đề và nội dung chi tiết
             if (search) {
                 // Chú ý: detail_content phải khớp với tên cột trong Supabase của bạn
-                query = query.or(`title.ilike.%${search}%,detail_content.ilike.%${search}%,description.ilike.%${search}%`);
+                query = query.textSearch('search_vector', search, {
+                    type: 'websearch',
+                    config: 'english'
+            });
             }
-            
             const { data, error } = await query.order('created_at', { ascending: false });
             
             if (error) {

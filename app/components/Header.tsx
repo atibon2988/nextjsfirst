@@ -35,11 +35,15 @@ export default function Header() {
         .from('posts')
         .select('id, title, image_url, description, category, detail_content')
         // SỬA Ở ĐÂY: Tìm trong Title HOẶC Content
-        .or(`title.ilike.%${cleanQuery}%,detail_content.ilike.%${cleanQuery}%,description.ilike.%${cleanQuery}%`) 
-        .limit(5);
+        .textSearch('search_vector', cleanQuery, {
+            type: 'websearch',
+            config: 'english'
+          })
+          .order('created_at', { ascending: false }) // Ưu tiên bài mới nhất
+          .limit(5);
 
-      setSuggestions(data || []);
-      setIsSearching(false);
+          setSuggestions(data || []);
+          setIsSearching(false);
     } else {
       setSuggestions([]);
     }
